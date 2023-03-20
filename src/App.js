@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/components/Layout";
 import SideMenu from "./pages/components/SideMenu";
 import Inventory from "./pages/Inventory";
+import AddProduct from "./pages/AddProduct";
+import NoPageFound from "./pages/NoPageFound";
 
 const App = () => {
   return (
@@ -17,7 +19,9 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="/inventory" element={<Inventory />} />
+          <Route path="/inventory/add-product" element={<AddProduct />} />
         </Route>
+        <Route path="*" element={<NoPageFound/>} />
       </Routes>
     </BrowserRouter>
   );

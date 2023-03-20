@@ -3,7 +3,7 @@ import React from "react";
 function Dashboard() {
   return (
     <>
-      <div className="bg-gray-200 grid grid-cols-1 col-span-12 lg:col-span-10 gap-6 md:grid-cols-3 lg:grid-cols-4   ">
+      <div className="bg-gray-200 grid grid-cols-1 col-span-12 lg:col-span-10 gap-6 md:grid-cols-3 lg:grid-cols-4  p-4 ">
       
         <article class="flex flex-col gap-4 rounded-lg border  border-gray-100 bg-white p-6  ">
           <div class="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
