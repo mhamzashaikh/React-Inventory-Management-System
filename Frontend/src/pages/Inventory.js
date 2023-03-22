@@ -108,7 +108,7 @@ function Inventory() {
                   src={require("../assets/search-icon.png")}
                 />
                 <input
-                  className="border-none outline-none focus:border-none"
+                  className="border-none outline-none focus:border-none text-xs"
                   type="text"
                   placeholder="Search here"
                 />

@@ -3,9 +3,36 @@ import { Dialog, Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
 export default function AddProduct() {
+  const [product, setProduct] = useState({
+    name: "",
+    brand: "",
+    price: "",
+    category: "",
+    description: "",
+  });
+  console.log("Product: ", product);
   const [open, setOpen] = useState(true);
-
   const cancelButtonRef = useRef(null);
+
+  const updateProduct = (key, value) => {
+    console.log(key);
+    setProduct({ ...product, [key]: value });
+  };
+
+  const addProduct = () => {
+    fetch("http://localhost:4000/api/product/add", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(product),
+    })
+      .then((result) => {
+        alert("Product ADDED");
+        setOpen(false);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -67,7 +94,10 @@ export default function AddProduct() {
                               type="text"
                               name="name"
                               id="name"
-                              value="iPad Air Gen 5th Wi-Fi"
+                              value={product.name}
+                              onChange={(e) =>
+                                updateProduct(e.target.name, e.target.value)
+                              }
                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Ex. Apple iMac 27&ldquo;"
                             />
@@ -83,7 +113,10 @@ export default function AddProduct() {
                               type="text"
                               name="brand"
                               id="brand"
-                              value="Google"
+                              value={product.brand}
+                              onChange={(e) =>
+                                updateProduct(e.target.name, e.target.value)
+                              }
                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Ex. Apple"
                             />
@@ -97,9 +130,12 @@ export default function AddProduct() {
                             </label>
                             <input
                               type="number"
-                              value="399"
                               name="price"
                               id="price"
+                              value={product.price}
+                              onChange={(e) =>
+                                updateProduct(e.target.name, e.target.value)
+                              }
                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="$299"
                             />
@@ -114,12 +150,22 @@ export default function AddProduct() {
                             <select
                               id="category"
                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              onChange={(e) =>
+                                setProduct({
+                                  ...product,
+                                  category: e.target.value,
+                                })
+                              }
                             >
-                              <option selected="">Electronics</option>
+                              <option selected="" value="Electronics">
+                                Electronics
+                              </option>
                               <option value="TV">TV/Monitors</option>
                               <option value="PC">PC</option>
-                              <option value="GA">Gaming/Console</option>
-                              <option value="PH">Phones</option>
+                              <option value="Gaming Console">
+                                Gaming/Console
+                              </option>
+                              <option value="Phones">Phones</option>
                             </select>
                           </div>
                           <div class="sm:col-span-2">
@@ -132,8 +178,13 @@ export default function AddProduct() {
                             <textarea
                               id="description"
                               rows="5"
+                              name="description"
                               class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Write a description..."
+                              value={product.description}
+                              onChange={(e) =>
+                                updateProduct(e.target.name, e.target.value)
+                              }
                             >
                               Standard glass, 3.8GHz 8-core 10th-generation
                               Intel Core i7 processor, Turbo Boost up to 5.0GHz,
@@ -177,7 +228,7 @@ export default function AddProduct() {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                    onClick={() => setOpen(false)}
+                    onClick={addProduct}
                   >
                     Add Product
                   </button>
