@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import AddProduct from "./AddProduct";
+import Filter from "./components/Filter";
 
 function Inventory() {
+  const [showFilter, setFilter] = useState(false);
   const [showModal, setShowModal] = useState(false);
   console.log("Modal: ",showModal)
   const modalSetting = () => {
     setShowModal(!showModal);
   };
+
+  const filterShow = () => {
+    setFilter(!showFilter)
+  }
 
 
   return (
@@ -97,6 +103,7 @@ function Inventory() {
 
         {showModal && <AddProduct />}
 
+
         {/* Table  */}
         <div class="overflow-x-auto rounded-lg border bg-white border-gray-200 ">
           <div className="flex justify-between pt-5 pb-3 px-3">
@@ -122,13 +129,15 @@ function Inventory() {
                 {/* <Link to="/inventory/add-product">Add Product</Link> */}
                 Add Product
               </button>
-              <button class="flex gap-2 bg-white-200 hover:bg-gray-100 border-2 text-gray font-bold p-2 text-xs  rounded">
+              <button class="flex gap-2 bg-white-200 hover:bg-gray-100 border-2 text-gray font-bold p-2 text-xs  rounded"
+               onClick={filterShow}>
                 <img
                   className="py-1 pl-2"
                   src={require("../assets/filter-icon.png")}
                 />
                 Filter
               </button>
+            {showFilter && <Filter />}
             </div>
           </div>
           <table class="min-w-full divide-y-2 divide-gray-200 text-sm">

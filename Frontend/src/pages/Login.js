@@ -1,18 +1,75 @@
 // import { LockClosedIcon } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../AuthContext";
 
 function Login() {
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  console.log(form);
+
+  const handleInputChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const authCheck = () => {
+    setTimeout(() => {
+      fetch("http://localhost:5000/api/login")
+        .then((response) => response.json())
+        .then((data) => {
+          // notifySuccess();
+          localStorage.setItem("user", JSON.stringify(data));
+          authContext.signin(data._id, () => {
+            navigate("/");
+          });
+        })
+        .catch((err) => {
+          // notifyWarn();
+          console.log(err);
+        });
+    }, 3000);
+  };
+
+  const loginUser = (e) => {
+    // Cannot send empty data
+    if (form.email === "" || form.password === "") {
+      alert("To login user, enter details to proceed...");
+    } else {
+      fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(form),
+      })
+        .then((result) => {
+          console.log("User login", result);
+        })
+        .catch((error) => {
+          console.log("Something went wrong ", error);
+        });
+    }
+    authCheck();
+    console.log("Auth: ", authContext);
+  };
+
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 h-screen  items-center place-items-center">
-      <div className="flex justify-center">
-        <img  src={require("../assets/signup.jpg")} alt="" />
-      </div>
+        <div className="flex justify-center">
+          <img src={require("../assets/signup.jpg")} alt="" />
+        </div>
         <div className="w-full max-w-md space-y-8 p-10 rounded-lg">
           <div>
             <img
               className="mx-auto h-12 w-auto"
-              src={require('../assets/download.png')}
+              src={require("../assets/download.png")}
               alt="Your Company"
             />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
@@ -43,6 +100,8 @@ function Login() {
                   required
                   className="relative block w-full rounded-t-md border-0 py-1.5 px-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Email address"
+                  value={form.email}
+                  onChange={handleInputChange}
                 />
               </div>
               <div>
@@ -57,6 +116,8 @@ function Login() {
                   required
                   className="relative block w-full rounded-b-md border-0 py-1.5 px-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Password"
+                  value={form.password}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
