@@ -10,8 +10,8 @@ main();
 
 app.use(express.json());
 app.use(cors());
-app.use("/api/product", productRoute);
 
+app.use("/api/product", productRoute);
 app.get("/api", (req, res) => {
   res.json({ name: "Hi" });
 });
@@ -22,7 +22,7 @@ app.post("/api/login", async (req, res) => {
   console.log(req.body);
   // res.send("hi");
   try {
-    const user = await Register.findOne({
+    const user = await User.findOne({
       email: req.body.email,
       password: req.body.password,
     });
@@ -52,6 +52,7 @@ app.post("/api/register", (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
+    password: req.body.password,
     phoneNumber: req.body.phoneNumber,
     imageUrl: req.body.imageUrl,
   });
@@ -63,7 +64,6 @@ app.post("/api/register", (req, res) => {
       alert("Signup Successfull");
     })
     .catch((err) => console.log("Signup: ", err));
-  res.status(200).send("Ok");
   console.log("request: ", req.body);
 });
 

@@ -31,7 +31,7 @@ function Register() {
     })
       .then((result) => {
         alert("Register User");
-        navigate('login')
+        navigate('/login')
         
       })
       .catch((err) => console.log(err));
@@ -56,6 +56,11 @@ function Register() {
       .catch((error) => console.log(error));
   };
 
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 h-screen  items-center place-items-center">
@@ -70,7 +75,7 @@ function Register() {
               Register your account
             </h2>
           </div>
-          <form className="mt-8 space-y-6" method="POST">
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             {/* <input type="hidden" name="remember" defaultValue="true"  /> */}
             <div className="flex flex-col gap-4 -space-y-px rounded-md shadow-sm">
               <div className="flex gap-4">

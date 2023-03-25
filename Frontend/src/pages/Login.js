@@ -20,7 +20,7 @@ function Login() {
 
   const authCheck = () => {
     setTimeout(() => {
-      fetch("http://localhost:5000/api/login")
+      fetch("http://localhost:4000/api/login")
         .then((response) => response.json())
         .then((data) => {
           // notifySuccess();
@@ -41,7 +41,7 @@ function Login() {
     if (form.email === "" || form.password === "") {
       alert("To login user, enter details to proceed...");
     } else {
-      fetch("http://localhost:5000/api/login", {
+      fetch("http://localhost:4000/api/login", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -57,6 +57,10 @@ function Login() {
     }
     authCheck();
     console.log("Auth: ", authContext);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -85,8 +89,8 @@ function Login() {
               </a>
             </p>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
-            <input type="hidden" name="remember" defaultValue="true" />
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            {/* <input type="hidden" name="remember" defaultValue="true" /> */}
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
                 <label htmlFor="email-address" className="sr-only">
@@ -152,6 +156,7 @@ function Login() {
               <button
                 type="submit"
                 className="group relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={loginUser}
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   {/* <LockClosedIcon

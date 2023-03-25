@@ -1,7 +1,8 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import SideMenu from "./SideMenu";
+import AuthContext from "../../AuthContext";
 
 const user = {
   name: "Tom Cook",
@@ -9,16 +10,15 @@ const user = {
   imageUrl:
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
-const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Reports", href: "#", current: false },
-];
+// const navigation = [
+//   { name: "Dashboard", href: "#", current: true },
+//   { name: "Team", href: "#", current: false },
+//   { name: "Projects", href: "#", current: false },
+//   { name: "Calendar", href: "#", current: false },
+//   { name: "Reports", href: "#", current: false },
+// ];
+
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
   { name: "Sign out", href: "#" },
 ];
 
@@ -27,6 +27,7 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const authContext = useContext(AuthContext);
   return (
     <>
       {/*
@@ -104,7 +105,9 @@ export default function Header() {
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             {userNavigation.map((item) => (
-                              <Menu.Item key={item.name}>
+                              <Menu.Item
+                                key={item.name}
+                              >
                                 {({ active }) => (
                                   <a
                                     href={item.href}
@@ -113,7 +116,7 @@ export default function Header() {
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
-                                    {item.name}
+                                   <span onClick={()=>authContext.signout()}>{item.name} </span>
                                   </a>
                                 )}
                               </Menu.Item>
@@ -144,24 +147,6 @@ export default function Header() {
               </div>
 
               <Disclosure.Panel className="md:hidden">
-                <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-                  {navigation.map((item) => (
-                    <Disclosure.Button
-                      key={item.name}
-                      as="a"
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        "block rounded-md px-3 py-2 text-base font-medium"
-                      )}
-                      aria-current={item.current ? "page" : undefined}
-                    >
-                      {item.name}
-                    </Disclosure.Button>
-                  ))}
-                </div>
                 <div className="border-t border-gray-700 pt-4 pb-3">
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
@@ -195,7 +180,7 @@ export default function Header() {
                         href={item.href}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                       >
-                        {item.name}
+                       <span onClick={()=>authContext.signout()}>{item.name} </span>
                       </Disclosure.Button>
                     ))}
                   </div>
