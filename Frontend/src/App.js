@@ -7,11 +7,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/components/Layout";
 import SideMenu from "./pages/components/SideMenu";
 import Inventory from "./pages/Inventory";
-import AddProduct from "./pages/AddProduct";
+import AddProduct from "./pages/components/AddProduct";
 import NoPageFound from "./pages/NoPageFound";
 import AuthContext from "./AuthContext";
 import ProtectedWrapper from "./ProtectedWrapper";
 import { useEffect, useState } from "react";
+import Store from "./pages/Store";
 
 const App = () => {
   const [user, setUser] = useState("");
@@ -74,6 +75,7 @@ const App = () => {
           <Route index element={<Dashboard />} />
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/inventory/add-product" element={<AddProduct />} />
+          <Route path="/manage-store" element={<Store />} />
         </Route>
         <Route path="*" element={<NoPageFound/>} />
       </Routes>

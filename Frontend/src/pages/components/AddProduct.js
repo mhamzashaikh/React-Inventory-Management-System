@@ -35,6 +35,7 @@ export default function AddProduct() {
   };
 
   return (
+    // Modal 
     <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"

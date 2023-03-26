@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import AddProduct from "./AddProduct";
+import AddProduct from "./components/AddProduct";
 import Filter from "./components/Filter";
 
 function Inventory() {

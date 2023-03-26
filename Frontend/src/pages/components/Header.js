@@ -28,6 +28,7 @@ function classNames(...classes) {
 
 export default function Header() {
   const authContext = useContext(AuthContext);
+  const localStorageData = JSON.parse(localStorage.getItem("user"));
   return (
     <>
       {/*
@@ -89,7 +90,7 @@ export default function Header() {
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
+                              src={localStorageData.imageUrl}
                               alt=""
                             />
                           </Menu.Button>
@@ -152,16 +153,16 @@ export default function Header() {
                     <div className="flex-shrink-0">
                       <img
                         className="h-10 w-10 rounded-full"
-                        src={user.imageUrl}
+                        src={localStorageData.imageUrl}
                         alt=""
                       />
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
-                        {user.name}
+                        {localStorageData.firstName + " " + localStorageData.lastName}
                       </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
-                        {user.email}
+                        {localStorageData.email}
                       </div>
                     </div>
                     <button
