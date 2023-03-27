@@ -1,36 +1,60 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import UploadImage from "./UploadImage";
+import AuthContext from "../../AuthContext";
 
 export default function AddStore() {
-  const [product, setProduct] = useState({
+  const authContext = useContext(AuthContext);
+  const [form, setForm] = useState({
+    userId: authContext.user,
     name: "",
-    city: "",
     category: "",
     address: "",
+    city: "",
+    image: "",
   });
-  console.log("Product: ", product);
+
+  console.log("FOrm: ????", form);
+
+  const handleInputChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
 
-  const updateProduct = (key, value) => {
-    console.log(key);
-    setProduct({ ...product, [key]: value });
-  };
-
   const addProduct = () => {
-    fetch("http://localhost:4000/api/product/add", {
+    fetch("http://localhost:4000/api/store/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify(product),
+      body: JSON.stringify(form),
     })
       .then((result) => {
-        alert("Product ADDED");
+        alert("STORE ADDED");
         setOpen(false);
       })
       .catch((err) => console.log(err));
+  };
+
+  // Uploading image to cloudinary
+  const uploadImage = async (image) => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "inventoryapp");
+
+    await fetch("https://api.cloudinary.com/v1_1/ddhayhptm/image/upload", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setForm({ ...form, image: data.url });
+        alert("Store Image Successfully Uploaded");
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -94,10 +118,8 @@ export default function AddStore() {
                               type="text"
                               name="name"
                               id="name"
-                              value={product.name}
-                              onChange={(e) =>
-                                updateProduct(e.target.name, e.target.value)
-                              }
+                              value={form.name}
+                              onChange={handleInputChange}
                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Enter Store Name"
                             />
@@ -113,10 +135,8 @@ export default function AddStore() {
                               type="text"
                               name="city"
                               id="city"
-                              value={product.city}
-                              onChange={(e) =>
-                                updateProduct(e.target.name, e.target.value)
-                              }
+                              value={form.city}
+                              onChange={handleInputChange}
                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Enter City Name"
                             />
@@ -132,8 +152,8 @@ export default function AddStore() {
                               id="category"
                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               onChange={(e) =>
-                                setProduct({
-                                  ...product,
+                                setForm({
+                                  ...form,
                                   category: e.target.value,
                                 })
                               }
@@ -141,11 +161,9 @@ export default function AddStore() {
                               <option selected="" value="Electronics">
                                 Electronics
                               </option>
-                              <option value="TV">TV/Monitors</option>
-                              <option value="PC">PC</option>
-                              <option value="Gaming Console">
-                                Gaming/Console
-                              </option>
+                              <option value="Groceries">Groceries</option>
+                              <option value="Wholesale">WholeSale</option>
+                              <option value="SuperMart">SuperMart</option>
                               <option value="Phones">Phones</option>
                             </select>
                           </div>
@@ -162,22 +180,15 @@ export default function AddStore() {
                               name="address"
                               class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Write a address..."
-                              value={product.address}
-                              onChange={(e) =>
-                                updateProduct(e.target.name, e.target.value)
-                              }
-                            >
-                              Standard glass, 3.8GHz 8-core 10th-generation
-                              Intel Core i7 processor, Turbo Boost up to 5.0GHz,
-                              16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with
-                              8GB of GDDR6 memory, 256GB SSD storage, Gigabit
-                              Ethernet, Magic Mouse 2, Magic Keyboard - US
-                            </textarea>
+                              value={form.address}
+                              onChange={handleInputChange}
+                            ></textarea>
                           </div>
                         </div>
                         <div class="flex items-center space-x-4">
                           <div>
-                            <label
+                            <UploadImage uploadImage={uploadImage} />
+                            {/* <label
                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                               for="small_size"
                             >
@@ -187,7 +198,7 @@ export default function AddStore() {
                               class="block w-full mb-5 text-xs text-gray-900 border  cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none "
                               id="small_size"
                               type="file"
-                            />
+                            /> */}
                           </div>
 
                           {/* <button

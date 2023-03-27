@@ -1,8 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddStore from "./components/AddStore";
 
 function Store() {
   const [showModal, setShowModal] = useState(false);
+  const [stores, setAllStores] = useState([]);
+  console.log("Stores: ", stores);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    fetch("http://localhost:4000/api/store/get")
+      .then((response) => response.json())
+      .then((data) => {
+        setAllStores(data);
+      });
+  };
 
   const modalSetting = () => {
     setShowModal(!showModal);
@@ -21,25 +35,28 @@ function Store() {
           </button>
         </div>
         {showModal && <AddStore />}
-
-        <div className="bg-white w-50 h-fit flex flex-col gap-4 p-4 ">
-          <div>
-            <img
-              className="h-60 w-full object-cover"
-              src={require("../assets/store-image.jpg")}
-            />
-          </div>
-          <div className="flex flex-col gap-3 justify-between items-start">
-            <span className="font-bold">Fresh Market</span>
-            <div className="flex">
-              <img
-                className="h-6 w-6"
-                src={require("../assets/location-icon.png")}
-              />
-              <span>1275 Main Street, Suite A, Greenfield, MA 01301</span>
+        {stores.map((element, index) => {
+          return (
+            <div className="bg-white w-50 h-fit flex flex-col gap-4 p-4 ">
+              <div>
+                <img
+                  className="h-60 w-full object-cover"
+                  src={element.image}
+                />
+              </div>
+              <div className="flex flex-col gap-3 justify-between items-start">
+                <span className="font-bold">{element.name}</span>
+                <div className="flex">
+                  <img
+                    className="h-6 w-6"
+                    src={require("../assets/location-icon.png")}
+                  />
+                  <span>{element.address  + ", " + element.city}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
     </div>
   );

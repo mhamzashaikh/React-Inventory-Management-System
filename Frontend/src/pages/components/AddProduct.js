@@ -5,7 +5,8 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 export default function AddProduct() {
   const [product, setProduct] = useState({
     name: "",
-    brand: "",
+    manufacturer: "",
+    quantity: "",
     price: "",
     category: "",
     description: "",
@@ -35,7 +36,7 @@ export default function AddProduct() {
   };
 
   return (
-    // Modal 
+    // Modal
     <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"
@@ -105,16 +106,16 @@ export default function AddProduct() {
                           </div>
                           <div>
                             <label
-                              for="brand"
+                              for="manufacturer"
                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
-                              Brand
+                              Manufacturer
                             </label>
                             <input
                               type="text"
-                              name="brand"
-                              id="brand"
-                              value={product.brand}
+                              name="manufacturer"
+                              id="manufacturer"
+                              value={product.manufacturer}
                               onChange={(e) =>
                                 updateProduct(e.target.name, e.target.value)
                               }
@@ -139,6 +140,23 @@ export default function AddProduct() {
                               }
                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="$299"
+                            />
+                            <label
+                              for="quantity"
+                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Quantity
+                            </label>
+                            <input
+                              type="number"
+                              name="quantity"
+                              id="quantity"
+                              value={product.quantity}
+                              onChange={(e) =>
+                                updateProduct(e.target.name, e.target.value)
+                              }
+                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="0 - 999"
                             />
                           </div>
                           <div>

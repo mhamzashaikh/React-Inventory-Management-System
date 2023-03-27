@@ -6,7 +6,11 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    brand: {
+    manufacturer: {
+      type: String,
+      required: true,
+    },
+    quantity: {
       type: String,
       required: true,
     },

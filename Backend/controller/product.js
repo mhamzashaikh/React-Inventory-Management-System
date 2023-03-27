@@ -4,9 +4,10 @@ const Product = require("../models/Product");
 const addProduct = async (req, res) => {
   const addProduct = await new Product({
     name: req.body.name,
-    brand: req.body.brand,
+    manufacturer: req.body.manufacturer,
     price: req.body.price,
     category: req.body.category,
+    quantity: req.body.quantity,
     description: req.body.description,
   });
 
@@ -19,9 +20,9 @@ const addProduct = async (req, res) => {
 };
 
 // Get All Posts
-const getAllPost = async (req, res) => {
-  const findAllPosts = await Post.find().sort({ _id: -1 }); // -1 for descending;
-  res.json(findAllPosts);
+const getAllProducts = async (req, res) => {
+  const findAllProducts = await Product.find().sort({ _id: -1 }); // -1 for descending;
+  res.json(findAllProducts);
 };
 
-module.exports = { addProduct };
+module.exports = { addProduct, getAllProducts };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AddProduct from "./components/AddProduct";
 import Filter from "./components/Filter";
@@ -6,15 +6,33 @@ import Filter from "./components/Filter";
 function Inventory() {
   const [showFilter, setFilter] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  console.log("Modal: ",showModal)
+  const [products, setAllProducts] = useState([]);
+  console.log("Modal: ", showModal);
+
+  console.log("Products: ", products);
+
+  useEffect(() => {
+    fetchProductsData();
+  }, []);
+
+  // Fetch Data
+  const fetchProductsData = () => {
+    fetch("http://localhost:4000/api/product/get")
+      .then((response) => response.json())
+      .then((data) => {
+        setAllProducts(data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // Open - Closed Modal
   const modalSetting = () => {
     setShowModal(!showModal);
   };
 
   const filterShow = () => {
-    setFilter(!showFilter)
-  }
-
+    setFilter(!showFilter);
+  };
 
   return (
     <div className="col-span-12 lg:col-span-10  flex justify-center">
@@ -103,7 +121,6 @@ function Inventory() {
 
         {showModal && <AddProduct />}
 
-
         {/* Table  */}
         <div class="overflow-x-auto rounded-lg border bg-white border-gray-200 ">
           <div className="flex justify-between pt-5 pb-3 px-3">
@@ -129,15 +146,17 @@ function Inventory() {
                 {/* <Link to="/inventory/add-product">Add Product</Link> */}
                 Add Product
               </button>
-              <button class="flex gap-2 bg-white-200 hover:bg-gray-100 border-2 text-gray font-bold p-2 text-xs  rounded"
-               onClick={filterShow}>
+              <button
+                class="flex gap-2 bg-white-200 hover:bg-gray-100 border-2 text-gray font-bold p-2 text-xs  rounded"
+                onClick={filterShow}
+              >
                 <img
                   className="py-1 pl-2"
                   src={require("../assets/filter-icon.png")}
                 />
                 Filter
               </button>
-            {showFilter && <Filter />}
+              {showFilter && <Filter />}
             </div>
           </div>
           <table class="min-w-full divide-y-2 divide-gray-200 text-sm">
@@ -145,6 +164,9 @@ function Inventory() {
               <tr>
                 <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                   Products
+                </th>
+                <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                  Manufacturer
                 </th>
                 <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                   Buying Price
@@ -162,84 +184,30 @@ function Inventory() {
             </thead>
 
             <tbody class="divide-y divide-gray-200">
-              <tr>
-                <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Maggi
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">230</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">20</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                  11/04/2023
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                  In Stock
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Maggi
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">230</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">20</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                  11/04/2023
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                  In Stock
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Maggi
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">230</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">20</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                  11/04/2023
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                  In Stock
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Maggi
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">230</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">20</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                  11/04/2023
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                  In Stock
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Maggi
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">230</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">20</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                  11/04/2023
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-green-600">
-                  In Stock
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Maggi
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">230</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">20</td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                  11/04/2023
-                </td>
-                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                  In Stock
-                </td>
-              </tr>
+              {products.map((element, index) => {
+                return (
+                  <tr>
+                    <td class="whitespace-nowrap px-4 py-2  text-gray-900">
+                      {element.name}
+                    </td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                      {element.manufacturer}
+                    </td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                      {element.price}
+                    </td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                      {element.quantity}
+                    </td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                    11/04/2023
+                    </td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                      In Stock
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

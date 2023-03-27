@@ -1,6 +1,7 @@
 const express = require("express");
 const { main } = require("./models/index");
 const productRoute = require("./router/product");
+const storeRoute = require("./router/store");
 const cors = require("cors");
 const User = require("./models/users");
 
@@ -11,10 +12,14 @@ main();
 app.use(express.json());
 app.use(cors());
 
+// Store API
+app.use("/api/store", storeRoute);
+// Products API
 app.use("/api/product", productRoute);
-app.get("/api", (req, res) => {
-  res.json({ name: "Hi" });
-});
+
+// app.get("/api", (req, res) => {
+//   res.json({ name: "Hi" });
+// });
 
 // ------------- Signin --------------
 let userAuthCheck;
