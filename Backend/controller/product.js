@@ -11,7 +11,9 @@ const addProduct = async (req, res) => {
     description: req.body.description,
   });
 
-  addProduct.save().then((result) => {
+  addProduct
+    .save()
+    .then((result) => {
       res.status(200).send(result);
     })
     .catch((err) => {
@@ -25,4 +27,10 @@ const getAllProducts = async (req, res) => {
   res.json(findAllProducts);
 };
 
-module.exports = { addProduct, getAllProducts };
+// Delete Selected Products
+const deleteSelectedProduct = async (req, res) => {
+  const deleteProduct = await Product.findByIdAndDelete(req.params.id);
+  res.json(deleteProduct);
+};
+
+module.exports = { addProduct, getAllProducts, deleteSelectedProduct };

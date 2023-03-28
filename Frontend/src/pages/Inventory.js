@@ -7,13 +7,15 @@ function Inventory() {
   const [showFilter, setFilter] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [products, setAllProducts] = useState([]);
+  const [updatePage, setUpdatePage] = useState(true);
   console.log("Modal: ", showModal);
+  console.log("UPDATE:: ", updatePage);
 
   console.log("Products: ", products);
 
   useEffect(() => {
     fetchProductsData();
-  }, []);
+  }, [updatePage]);
 
   // Fetch Data
   const fetchProductsData = () => {
@@ -32,6 +34,17 @@ function Inventory() {
 
   const filterShow = () => {
     setFilter(!showFilter);
+  };
+
+  // Delete item
+  const deleteItem = (id) => {
+    console.log("Product ID: ", id);
+    console.log(`http://localhost:4000/api/product/delete/${id}`);
+    fetch(`http://localhost:4000/api/product/delete/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUpdatePage(!updatePage);
+      });
   };
 
   return (
@@ -180,6 +193,9 @@ function Inventory() {
                 <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                   Availibility
                 </th>
+                <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                  More
+                </th>
               </tr>
             </thead>
 
@@ -200,10 +216,21 @@ function Inventory() {
                       {element.quantity}
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                    11/04/2023
+                      11/04/2023
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">
                       In Stock
+                    </td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <span className="text-green-700 cursor-pointer">
+                        Edit{" "}
+                      </span>
+                      <span
+                        className="text-red-600 px-2 cursor-pointer"
+                        onClick={() => deleteItem(element._id)}
+                      >
+                        Delete
+                      </span>
                     </td>
                   </tr>
                 );
