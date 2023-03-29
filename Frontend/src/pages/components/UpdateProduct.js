@@ -2,15 +2,17 @@ import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
-export default function AddProduct({addProductModalSetting}) {
+export default function UpdateProduct({ updateProductData, updateModalSetting }) {
+  const { _id, name, manufacturer, quantity, price, description } =updateProductData;
   const [product, setProduct] = useState({
-    name: "",
-    manufacturer: "",
-    quantity: "",
-    price: "",
-    description: "",
+    productID: _id,
+    name: name,
+    manufacturer: manufacturer,
+    quantity: quantity,
+    price: price,
+    description: description,
   });
-  console.log("Product: ", product);
+  console.log("Product: >>> ", product);
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
 
@@ -19,8 +21,8 @@ export default function AddProduct({addProductModalSetting}) {
     setProduct({ ...product, [key]: value });
   };
 
-  const addProduct = () => {
-    fetch("http://localhost:4000/api/product/add", {
+  const updateProduct = () => {
+    fetch("http://localhost:4000/api/product/update", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -28,8 +30,8 @@ export default function AddProduct({addProductModalSetting}) {
       body: JSON.stringify(product),
     })
       .then((result) => {
-        alert("Product ADDED");
-        addProductModalSetting();
+        alert("Product Updated");
+        setOpen(false);
       })
       .catch((err) => console.log(err));
   };
@@ -80,7 +82,7 @@ export default function AddProduct({addProductModalSetting}) {
                         as="h3"
                         className="text-lg font-semibold leading-6 text-gray-900 "
                       >
-                        Add Product
+                        Update Product
                       </Dialog.Title>
                       <form action="#">
                         <div class="grid gap-4 mb-4 sm:grid-cols-2">
@@ -221,14 +223,14 @@ export default function AddProduct({addProductModalSetting}) {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                    onClick={addProduct}
+                    onClick={updateProduct}
                   >
                     Add Product
                   </button>
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                    onClick={() => addProductModalSetting()}
+                    onClick={() => updateModalSetting()}
                     ref={cancelButtonRef}
                   >
                     Cancel

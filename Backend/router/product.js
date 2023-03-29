@@ -11,4 +11,7 @@ app.get("/get", product.getAllProducts);
 // Delete Selected Product Item
 app.get("/delete/:id", product.deleteSelectedProduct);
 
+// Update Selected Product
+app.post("/update", product.updateSelectedProduct);
+
 module.exports = app;

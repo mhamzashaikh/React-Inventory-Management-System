@@ -4,12 +4,12 @@ import AddStore from "./components/AddStore";
 function Store() {
   const [showModal, setShowModal] = useState(false);
   const [stores, setAllStores] = useState([]);
-  console.log("Stores: ", stores);
 
   useEffect(() => {
     fetchData();
   }, []);
 
+// Fetching all stores data 
   const fetchData = () => {
     fetch("http://localhost:4000/api/store/get")
       .then((response) => response.json())

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import AddProduct from "./components/AddProduct";
 import Filter from "./components/Filter";
+import AddProduct from "./components/AddProduct";
+import UpdateProduct from "./components/UpdateProduct";
 
 function Inventory() {
   const [showFilter, setFilter] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [updateProduct, setUpdateProduct] = useState([]);
   const [products, setAllProducts] = useState([]);
   const [updatePage, setUpdatePage] = useState(true);
-  console.log("Modal: ", showModal);
+  console.log("Modal: ", showProductModal);
   console.log("UPDATE:: ", updatePage);
 
   console.log("Products: ", products);
@@ -17,7 +19,7 @@ function Inventory() {
     fetchProductsData();
   }, [updatePage]);
 
-  // Fetch Data
+  // Fetching Data of All Products
   const fetchProductsData = () => {
     fetch("http://localhost:4000/api/product/get")
       .then((response) => response.json())
@@ -27,9 +29,16 @@ function Inventory() {
       .catch((err) => console.log(err));
   };
 
-  // Open - Closed Modal
-  const modalSetting = () => {
-    setShowModal(!showModal);
+  // Modal for Product ADD
+  const addProductModalSetting = () => {
+    setShowProductModal(!showProductModal);
+  };
+
+  // Modal for Product UPDATE
+  const updateProductModalSetting = (selectedProductData) => {
+    console.log("Clicked: edit")
+    setUpdateProduct(selectedProductData);
+    setShowUpdateModal(!showUpdateModal);
   };
 
   const filterShow = () => {
@@ -132,7 +141,15 @@ function Inventory() {
           </div>
         </div>
 
-        {showModal && <AddProduct />}
+        {showProductModal && (
+          <AddProduct addProductModalSetting={addProductModalSetting} />
+        )}
+        {showUpdateModal && (
+          <UpdateProduct
+            updateProductData={updateProduct}
+            updateModalSetting={updateProductModalSetting}
+          />
+        )}
 
         {/* Table  */}
         <div class="overflow-x-auto rounded-lg border bg-white border-gray-200 ">
@@ -154,7 +171,7 @@ function Inventory() {
             <div className="flex gap-4">
               <button
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 text-xs  rounded"
-                onClick={modalSetting}
+                onClick={addProductModalSetting}
               >
                 {/* <Link to="/inventory/add-product">Add Product</Link> */}
                 Add Product
@@ -222,7 +239,10 @@ function Inventory() {
                       In Stock
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                      <span className="text-green-700 cursor-pointer">
+                      <span
+                        className="text-green-700 cursor-pointer"
+                        onClick={() => updateProductModalSetting(element)}
+                      >
                         Edit{" "}
                       </span>
                       <span

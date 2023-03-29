@@ -6,7 +6,6 @@ const addProduct = async (req, res) => {
     name: req.body.name,
     manufacturer: req.body.manufacturer,
     price: req.body.price,
-    category: req.body.category,
     quantity: req.body.quantity,
     description: req.body.description,
   });
@@ -27,10 +26,31 @@ const getAllProducts = async (req, res) => {
   res.json(findAllProducts);
 };
 
-// Delete Selected Products
+// Delete Selected Product
 const deleteSelectedProduct = async (req, res) => {
   const deleteProduct = await Product.findByIdAndDelete(req.params.id);
   res.json(deleteProduct);
 };
 
-module.exports = { addProduct, getAllProducts, deleteSelectedProduct };
+// Update Selected Product
+const updateSelectedProduct = async (req, res) => {
+  try {
+    const updatedResult = await Product.findByIdAndUpdate(
+      { _id: req.body.productID },
+      { manufacturer: req.body.manufacturer },
+      { new: true }
+    );
+    console.log(updatedResult);
+    res.json(updatedResult);
+  } catch (error) {
+    console.log(error);
+    res.status(402).send("Error");
+  }
+};
+
+module.exports = {
+  addProduct,
+  getAllProducts,
+  deleteSelectedProduct,
+  updateSelectedProduct,
+};
