@@ -2,33 +2,37 @@ import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
-export default function AddSale({ addProductModalSetting, products, stores }) {
-  const [product, setProduct] = useState({
-    name: "",
-    manufacturer: "",
-    quantity: "",
-    price: "",
-    description: "",
+export default function AddSale({ addSaleModalSetting, products, stores, handlePageUpdate}) {
+  const [sale, setSale] = useState({
+    productID: "",
+    storeID: "",
+    stockSold: "",
+    saleDate: "",
+    totalSaleAmount: "",
   });
+  console.log("SALES DATA: ", sale);
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
 
+  // Handling Input Change for input fields
   const handleInputChange = (key, value) => {
     console.log(key);
-    setProduct({ ...product, [key]: value });
+    setSale({ ...sale, [key]: value });
   };
 
-  const addProduct = () => {
-    fetch("http://localhost:4000/api/product/add", {
+  // POST Data
+  const addSale = () => {
+    fetch("http://localhost:4000/api/sales/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify(product),
+      body: JSON.stringify(sale),
     })
       .then((result) => {
-        alert("Product ADDED");
-        addProductModalSetting();
+        alert("Sale ADDED");
+        handlePageUpdate();
+        addSaleModalSetting();
       })
       .catch((err) => console.log(err));
   };
@@ -85,15 +89,15 @@ export default function AddSale({ addProductModalSetting, products, stores }) {
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
                           <div>
                             <label
-                              for="category"
+                              for="productID"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Product Name
                             </label>
                             <select
-                              id="category"
+                              id="productID"
                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                              name="productName"
+                              name="productID"
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
                               }
@@ -101,7 +105,7 @@ export default function AddSale({ addProductModalSetting, products, stores }) {
                               <option selected="">Select Products</option>
                               {products.map((element, index) => {
                                 return (
-                                  <option value={element.name}>
+                                  <option value={element._id}>
                                     {element.name}
                                   </option>
                                 );
@@ -119,7 +123,7 @@ export default function AddSale({ addProductModalSetting, products, stores }) {
                               type="number"
                               name="stockSold"
                               id="stockSold"
-                              value={product.stockSold}
+                              value={sale.stockSold}
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
                               }
@@ -130,15 +134,15 @@ export default function AddSale({ addProductModalSetting, products, stores }) {
 
                           <div>
                             <label
-                              for="category"
+                              for="storeID"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Store Name
                             </label>
                             <select
-                              id="category"
+                              id="storeID"
                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                              name="productName"
+                              name="storeID"
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
                               }
@@ -146,7 +150,7 @@ export default function AddSale({ addProductModalSetting, products, stores }) {
                               <option selected="">Select Store</option>
                               {stores.map((element, index) => {
                                 return (
-                                  <option value={element.name}>
+                                  <option value={element._id}>
                                     {element.name}
                                   </option>
                                 );
@@ -155,16 +159,16 @@ export default function AddSale({ addProductModalSetting, products, stores }) {
                           </div>
                           <div>
                             <label
-                              for="price"
+                              for="totalSaleAmount"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Total Sale Amount
                             </label>
                             <input
                               type="number"
-                              name="price"
+                              name="totalSaleAmount"
                               id="price"
-                              value={product.price}
+                              value={sale.totalSaleAmount}
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
                               }
@@ -187,8 +191,12 @@ export default function AddSale({ addProductModalSetting, products, stores }) {
                             <input
                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               type="date"
-                              id="salesDate"
-                              name="salesDate"
+                              id="saleDate"
+                              name="saleDate"
+                              value={sale.saleDate}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
                             />
                           </div>
                         </div>
@@ -226,14 +234,14 @@ export default function AddSale({ addProductModalSetting, products, stores }) {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                    onClick={addProduct}
+                    onClick={addSale}
                   >
                     Add Sale
                   </button>
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                    onClick={() => addProductModalSetting()}
+                    onClick={() => addSaleModalSetting()}
                     ref={cancelButtonRef}
                   >
                     Cancel

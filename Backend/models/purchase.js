@@ -1,26 +1,21 @@
 const mongoose = require("mongoose");
 
-const SaleSchema = new mongoose.Schema(
+const PurchaseSchema = new mongoose.Schema(
   {
     ProductID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "product",
       required: true,
     },
-    StoreID: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "store",
-      required: true,
-    },
-    StockSold: {
+    QuantityPurchased: {
       type: Number,
       required: true,
     },
-    SaleDate: {
+    PurchaseDate: {
       type: String,
       required: true,
     },
-    TotalSaleAmount: {
+    TotalPurchaseAmount: {
       type: Number,
       required: true,
     },
@@ -28,5 +23,5 @@ const SaleSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Sales = mongoose.model("sales", SaleSchema);
-module.exports = Sales;
+const Purchase = mongoose.model("purchase", PurchaseSchema);
+module.exports = Purchase;

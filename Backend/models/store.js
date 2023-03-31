@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const StoreSchema = new mongoose.Schema(
   {
     userID: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users',
       required: true,
     },
     name: {

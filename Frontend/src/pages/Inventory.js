@@ -9,11 +9,9 @@ function Inventory() {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [updateProduct, setUpdateProduct] = useState([]);
   const [products, setAllProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState();
   const [updatePage, setUpdatePage] = useState(true);
-  console.log("Modal: ", showProductModal);
-  console.log("UPDATE:: ", updatePage);
 
-  console.log("Products: ", products);
 
   useEffect(() => {
     fetchProductsData();
@@ -29,6 +27,16 @@ function Inventory() {
       .catch((err) => console.log(err));
   };
 
+  // Fetching Data of Search Products
+  const fetchSearchData = () => {
+    fetch(`http://localhost:4000/api/product/search?searchTerm=${searchTerm}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setAllProducts(data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   // Modal for Product ADD
   const addProductModalSetting = () => {
     setShowProductModal(!showProductModal);
@@ -36,7 +44,7 @@ function Inventory() {
 
   // Modal for Product UPDATE
   const updateProductModalSetting = (selectedProductData) => {
-    console.log("Clicked: edit")
+    console.log("Clicked: edit");
     setUpdateProduct(selectedProductData);
     setShowUpdateModal(!showUpdateModal);
   };
@@ -54,6 +62,17 @@ function Inventory() {
       .then((data) => {
         setUpdatePage(!updatePage);
       });
+  };
+
+  // Handle Page Update
+  const handlePageUpdate = () => {
+    setUpdatePage(!updatePage);
+  };
+
+  // Handle Search Term
+  const handleSearchTerm = (e) => {
+    setSearchTerm(e.target.value);
+    fetchSearchData();
   };
 
   return (
@@ -142,7 +161,10 @@ function Inventory() {
         </div>
 
         {showProductModal && (
-          <AddProduct addProductModalSetting={addProductModalSetting} />
+          <AddProduct
+            addProductModalSetting={addProductModalSetting}
+            handlePageUpdate={handlePageUpdate}
+          />
         )}
         {showUpdateModal && (
           <UpdateProduct
@@ -165,6 +187,8 @@ function Inventory() {
                   className="border-none outline-none focus:border-none text-xs"
                   type="text"
                   placeholder="Search here"
+                  value={searchTerm}
+                  onChange={handleSearchTerm}
                 />
               </div>
             </div>
@@ -199,13 +223,10 @@ function Inventory() {
                   Manufacturer
                 </th>
                 <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                  Buying Price
+                  Stock
                 </th>
                 <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                  Quantity
-                </th>
-                <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                  Expiry Date
+                  Description
                 </th>
                 <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                   Availibility
@@ -227,16 +248,13 @@ function Inventory() {
                       {element.manufacturer}
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                      {element.price}
+                      {element.stock}
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                      {element.quantity}
+                      {element.description}
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                      11/04/2023
-                    </td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                      In Stock
+                      {element.stock > 0 ? "In Stock" : "Not in Stock"}
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">
                       <span

@@ -37,6 +37,15 @@ function SideMenu() {
             <span class="text-sm font-medium"> Reports </span>
           </a> */}
 
+          <Link to="/purchase-details">
+            <a
+              href="#"
+              class="flex items-center gap-2 rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+            >
+              <img src={require("../../assets/supplier-icon.png")} />
+              <span class="text-sm font-medium"> Purchase Details</span>
+            </a>
+          </Link>
           <Link to="/sales">
             <a
               href="#"

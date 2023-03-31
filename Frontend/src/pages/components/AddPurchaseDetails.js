@@ -2,35 +2,36 @@ import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
-export default function AddProduct({addProductModalSetting, handlePageUpdate}) {
-  const [product, setProduct] = useState({
-    name: "",
-    manufacturer: "",
-    // quantity: "",
-    // price: "",
-    description: "",
+export default function AddPurchaseDetails({ addSaleModalSetting, products, handlePageUpdate }) {
+  const [purchase, setPurchase] = useState({
+    productID: "",
+    quantityPurchased: "",
+    purchaseDate: "",
+    totalPurchaseAmount: "",
   });
-  console.log("Product: ", product);
+  console.log("PURCHASED DATA: ", purchase);
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
 
+  // Handling Input Change for input fields
   const handleInputChange = (key, value) => {
     console.log(key);
-    setProduct({ ...product, [key]: value });
+    setPurchase({ ...purchase, [key]: value });
   };
 
-  const addProduct = () => {
-    fetch("http://localhost:4000/api/product/add", {
+  // POST Data
+  const addSale = () => {
+    fetch("http://localhost:4000/api/purchase/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify(product),
+      body: JSON.stringify(purchase),
     })
       .then((result) => {
-        alert("Product ADDED");
+        alert("Purchase ADDED");
         handlePageUpdate();
-        addProductModalSetting();
+        addSaleModalSetting();
       })
       .catch((err) => console.log(err));
   };
@@ -57,7 +58,7 @@ export default function AddProduct({addProductModalSetting, handlePageUpdate}) {
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 ">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -67,7 +68,7 @@ export default function AddProduct({addProductModalSetting, handlePageUpdate}) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg overflow-y-scroll">
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -79,119 +80,103 @@ export default function AddProduct({addProductModalSetting, handlePageUpdate}) {
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left ">
                       <Dialog.Title
                         as="h3"
-                        className="text-lg font-semibold leading-6 text-gray-900 "
+                        className="text-lg  py-4 font-semibold leading-6 text-gray-900 "
                       >
-                        Add Product
+                        Purchase Details
                       </Dialog.Title>
                       <form action="#">
-                        <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                        <div className="grid gap-4 mb-4 sm:grid-cols-2">
                           <div>
                             <label
-                              for="name"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              for="productID"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
-                              Name
+                              Product Name
                             </label>
-                            <input
-                              type="text"
-                              name="name"
-                              id="name"
-                              value={product.name}
+                            <select
+                              id="productID"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              name="productID"
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
                               }
-                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                              placeholder="Ex. Apple iMac 27&ldquo;"
-                            />
+                            >
+                              <option selected="">Select Products</option>
+                              {products.map((element, index) => {
+                                return (
+                                  <option value={element._id}>
+                                    {element.name}
+                                  </option>
+                                );
+                              })}
+                            </select>
                           </div>
                           <div>
                             <label
-                              for="manufacturer"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              for="quantityPurchased"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
-                              Manufacturer
-                            </label>
-                            <input
-                              type="text"
-                              name="manufacturer"
-                              id="manufacturer"
-                              value={product.manufacturer}
-                              onChange={(e) =>
-                                handleInputChange(e.target.name, e.target.value)
-                              }
-                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                              placeholder="Ex. Apple"
-                            />
-                          </div>
-                          {/* <div>
-                            <label
-                              for="price"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                              Price
+                              Quantity Purchased
                             </label>
                             <input
                               type="number"
-                              name="price"
-                              id="price"
-                              value={product.price}
+                              name="quantityPurchased"
+                              id="quantityPurchased"
+                              value={purchase.quantityPurchased}
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
                               }
-                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="0 - 999"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              for="totalPurchaseAmount"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Total Purchase Amount
+                            </label>
+                            <input
+                              type="number"
+                              name="totalPurchaseAmount"
+                              id="price"
+                              value={purchase.totalPurchaseAmount}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="$299"
                             />
                           </div>
-                          <div>
+                          <div className="h-fit w-fit">
+                            {/* <Datepicker
+                              onChange={handleChange}
+                              show={show}
+                              setShow={handleClose}
+                            /> */}
                             <label
-                              for="quantity"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              for="purchaseDate"
                             >
-                              Quantity
+                              Purchase Date
                             </label>
                             <input
-                              type="number"
-                              name="quantity"
-                              id="quantity"
-                              value={product.quantity}
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              type="date"
+                              id="purchaseDate"
+                              name="purchaseDate"
+                              value={purchase.purchaseDate}
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
                               }
-                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                              placeholder="0 - 999"
                             />
-                          </div> */}
-
-                          <div class="sm:col-span-2">
-                            <label
-                              for="description"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                              Description
-                            </label>
-                            <textarea
-                              id="description"
-                              rows="5"
-                              name="description"
-                              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                              placeholder="Write a description..."
-                              value={product.description}
-                              onChange={(e) =>
-                                handleInputChange(e.target.name, e.target.value)
-                              }
-                            >
-                              Standard glass, 3.8GHz 8-core 10th-generation
-                              Intel Core i7 processor, Turbo Boost up to 5.0GHz,
-                              16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with
-                              8GB of GDDR6 memory, 256GB SSD storage, Gigabit
-                              Ethernet, Magic Mouse 2, Magic Keyboard - US
-                            </textarea>
                           </div>
                         </div>
-                        <div class="flex items-center space-x-4">
+                        <div className="flex items-center space-x-4">
                           {/* <button
                             type="submit"
-                            class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                           >
                             Update product
                           </button> */}
@@ -222,14 +207,14 @@ export default function AddProduct({addProductModalSetting, handlePageUpdate}) {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                    onClick={addProduct}
+                    onClick={addSale}
                   >
-                    Add Product
+                    Add
                   </button>
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                    onClick={() => addProductModalSetting()}
+                    onClick={() => addSaleModalSetting()}
                     ref={cancelButtonRef}
                   >
                     Cancel

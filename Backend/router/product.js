@@ -14,4 +14,9 @@ app.get("/delete/:id", product.deleteSelectedProduct);
 // Update Selected Product
 app.post("/update", product.updateSelectedProduct);
 
+// Search Product
+app.get("/search", product.searchProduct);
+
+http://localhost:4000/api/product/search?searchTerm=fa
+
 module.exports = app;
