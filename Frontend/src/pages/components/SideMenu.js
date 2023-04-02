@@ -5,7 +5,7 @@ function SideMenu() {
   const localStorageData = JSON.parse(localStorage.getItem("user"));
 
   return (
-    <div class="col-span-2  h-screen flex-col justify-between border-r bg-white hidden lg:flex">
+    <div class="h-full flex-col justify-between  bg-white hidden lg:flex ">
       <div class="px-4 py-6">
         <nav aria-label="Main Nav" class="mt-6 flex flex-col space-y-1">
           <Link to="/">
