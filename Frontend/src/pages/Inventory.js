@@ -3,6 +3,7 @@ import Filter from "./components/Filter";
 import AddProduct from "./components/AddProduct";
 import UpdateProduct from "./components/UpdateProduct";
 
+
 function Inventory() {
   const [showFilter, setFilter] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);

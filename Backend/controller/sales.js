@@ -1,5 +1,5 @@
 const Sales = require("../models/sales");
-const subtractProductStock = require("../controller/subtractProductStock");
+const soldStock = require("../controller/soldStock");
 
 // Add Sales
 const addSales = (req, res) => {
@@ -14,7 +14,7 @@ const addSales = (req, res) => {
   addSale
     .save()
     .then((result) => {
-      subtractProductStock();
+      soldStock(req.body.productID);
       res.status(200).send(result);
     })
     .catch((err) => {

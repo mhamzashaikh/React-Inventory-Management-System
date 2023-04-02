@@ -5,6 +5,8 @@ const addProduct = (req, res) => {
   const addProduct = new Product({
     name: req.body.name,
     manufacturer: req.body.manufacturer,
+    stockPurchase: 0,
+    stockSold: 0,
     stock: 0,
     description: req.body.description,
   });

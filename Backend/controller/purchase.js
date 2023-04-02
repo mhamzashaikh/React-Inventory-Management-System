@@ -1,5 +1,7 @@
 const Purchase = require("../models/purchase");
-const addProductStock = require("./addProductStock");
+const purchaseStock = require("./purchaseStock");
+
+
 
 // Add Purchase Details
 const addPurchase = (req, res) => {
@@ -13,7 +15,7 @@ const addPurchase = (req, res) => {
   addPurchaseDetails
     .save()
     .then((result) => {
-      addProductStock();
+      purchaseStock(req.body.productID);
       res.status(200).send(result);
     })
     .catch((err) => {

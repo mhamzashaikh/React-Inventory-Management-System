@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import Chart from "react-apexcharts";
 
 function Dashboard() {
+  const [chart, setChart] = useState({
+    options: {
+      chart: {
+        id: "basic-bar",
+      },
+      xaxis: {
+        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
+      },
+    },
+    series: [
+      {
+        name: "series-1",
+        data: [30, 40, 45, 50, 49, 60, 70, 91],
+      },
+    ],
+  });
+
   return (
     <>
       <div className="bg-gray-200 grid grid-cols-1 col-span-12 lg:col-span-10 gap-6 md:grid-cols-3 lg:grid-cols-4  p-4 ">
-      
         <article class="flex flex-col gap-4 rounded-lg border  border-gray-100 bg-white p-6  ">
           <div class="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
@@ -138,7 +155,14 @@ function Dashboard() {
             </p>
           </div>
         </article>
-        
+        <div className="flex bg-white rounded-lg py-8 col-span-full justify-center">
+          <Chart
+            options={chart.options}
+            series={chart.series}
+            type="line"
+            width="500"
+          />
+        </div>
       </div>
     </>
   );

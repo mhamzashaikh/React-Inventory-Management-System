@@ -6,6 +6,8 @@ const purchaseRoute = require("./router/purchase");
 const salesRoute = require("./router/sales");
 const cors = require("cors");
 const User = require("./models/users");
+const Product = require("./models/Product");
+
 
 const app = express();
 const PORT = 4000;
@@ -75,6 +77,13 @@ app.post("/api/register", (req, res) => {
     .catch((err) => console.log("Signup: ", err));
   console.log("request: ", req.body);
 });
+
+
+app.get("/testget", async (req,res)=>{
+  const result = await Product.findOne({ _id: '6429979b2e5434138eda1564'})
+  res.json(result)
+
+})
 
 // Here we are listening to the server
 app.listen(PORT, () => {
