@@ -23,14 +23,14 @@ function Login() {
       fetch("http://localhost:4000/api/login")
         .then((response) => response.json())
         .then((data) => {
-          // notifySuccess();
+          alert("Successfully Login");
           localStorage.setItem("user", JSON.stringify(data));
           authContext.signin(data._id, () => {
             navigate("/");
           });
         })
         .catch((err) => {
-          // notifyWarn();
+          alert("Wrong credentials, Try again")
           console.log(err);
         });
     }, 3000);
@@ -56,7 +56,7 @@ function Login() {
         });
     }
     authCheck();
-    console.log("Auth: ", authContext);
+    // console.log("Auth: ", authContext);
   };
 
   const handleSubmit = (e) => {
@@ -73,14 +73,14 @@ function Login() {
           <div>
             <img
               className="mx-auto h-12 w-auto"
-              src={require("../assets/download.png")}
+              src={require("../assets/logo.png")}
               alt="Your Company"
             />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
               Signin to your account
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
-              Or{" "}
+              Or
               <a
                 href="#"
                 className="font-medium text-indigo-600 hover:text-indigo-500"

@@ -21,7 +21,7 @@ const addProduct = (req, res) => {
     });
 };
 
-// Get All Posts
+// Get All Products
 const getAllProducts = async (req, res) => {
   const findAllProducts = await Product.find().sort({ _id: -1 }); // -1 for descending;
   res.json(findAllProducts);

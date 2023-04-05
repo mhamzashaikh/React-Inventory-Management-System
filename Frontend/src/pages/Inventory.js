@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Filter from "./components/Filter";
-import AddProduct from "./components/AddProduct";
-import UpdateProduct from "./components/UpdateProduct";
-
+import Filter from "../components/Filter";
+import AddProduct from "../components/AddProduct";
+import UpdateProduct from "../components/UpdateProduct";
 
 function Inventory() {
   const [showFilter, setFilter] = useState(false);
@@ -12,10 +11,11 @@ function Inventory() {
   const [products, setAllProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState();
   const [updatePage, setUpdatePage] = useState(true);
-
+  const [stores, setAllStores] = useState([]);
 
   useEffect(() => {
     fetchProductsData();
+    fetchSalesData();
   }, [updatePage]);
 
   // Fetching Data of All Products
@@ -76,6 +76,15 @@ function Inventory() {
     fetchSearchData();
   };
 
+  // Fetching all stores data
+  const fetchSalesData = () => {
+    fetch("http://localhost:4000/api/store/get")
+      .then((response) => response.json())
+      .then((data) => {
+        setAllStores(data);
+      });
+  };
+
   return (
     <div className="col-span-12 lg:col-span-10  flex justify-center">
       <div className=" flex flex-col gap-5 w-11/12">
@@ -84,21 +93,23 @@ function Inventory() {
           <div className=" flex flex-col md:flex-row justify-center items-center  ">
             <div className="flex flex-col p-10  w-full  md:w-3/12  ">
               <span className="font-semibold text-blue-600 text-base">
-                Categories
+                Total Products
               </span>
-              <span className="font-semibold text-gray-600 text-base">14</span>
+              <span className="font-semibold text-gray-600 text-base">
+                {products.length}
+              </span>
               <span className="font-thin text-gray-400 text-xs">
                 Last 7 days
               </span>
             </div>
             <div className="flex flex-col gap-3 p-10   w-full  md:w-3/12 sm:border-y-2  md:border-x-2 md:border-y-0">
               <span className="font-semibold text-yellow-600 text-base">
-                Total Products
+                Stores
               </span>
               <div className="flex gap-8">
                 <div className="flex flex-col">
                   <span className="font-semibold text-gray-600 text-base">
-                    868
+                    {stores.length}
                   </span>
                   <span className="font-thin text-gray-400 text-xs">
                     Last 7 days

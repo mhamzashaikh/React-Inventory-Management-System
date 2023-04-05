@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AddSale from "./components/AddSale";
+import AddSale from "../components/AddSale";
 
 function Sales() {
   const [showSaleModal, setShowSaleModal] = useState(false);

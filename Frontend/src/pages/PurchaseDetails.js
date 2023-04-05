@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AddPurchaseDetails from "./components/AddPurchaseDetails";
+import AddPurchaseDetails from "../components/AddPurchaseDetails";
 
 function PurchaseDetails() {
   const [showSaleModal, setShowSaleModal] = useState(false);
@@ -105,7 +105,7 @@ function PurchaseDetails() {
                 return (
                   <tr key={element._id}>
                     <td class="whitespace-nowrap px-4 py-2  text-gray-900">
-                      {element.ProductID.name}
+                      {element.ProductID?.name}
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">
                       {element.QuantityPurchased}

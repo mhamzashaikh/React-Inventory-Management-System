@@ -1,6 +1,6 @@
 const Store = require("../models/store");
 
-// Add Post
+// Add Store
 const addStore = async (req, res) => {
     console.log(req.body)
   const addStore = await new Store({
@@ -20,7 +20,7 @@ const addStore = async (req, res) => {
     });
 };
 
-// Get All Posts
+// Get All Stores
 const getAllStores = async (req, res) => {
   const findAllStores = await Store.find().sort({ _id: -1 }); // -1 for descending;
   res.json(findAllStores);

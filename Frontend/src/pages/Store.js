@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AddStore from "./components/AddStore";
+import AddStore from "../components/AddStore";
 
 function Store() {
   const [showModal, setShowModal] = useState(false);

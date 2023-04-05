@@ -1,8 +1,7 @@
 import { Fragment, useContext } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import SideMenu from "./SideMenu";
-import AuthContext from "../../AuthContext";
+import AuthContext from "../AuthContext"
 import { Link } from "react-router-dom";
 
 const user = {
@@ -19,9 +18,7 @@ const navigation = [
   { name: "Manage Store", href: "/manage-store", current: false },
 ];
 
-const userNavigation = [
-  { name: "Sign out", href: "#" },
-];
+const userNavigation = [{ name: "Sign out", href: "#" }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -48,11 +45,15 @@ export default function Header() {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company"
-                      />
+                      <div className="flex justify-center items-center gap-2">
+                        <img
+                          className="h-8 w-8"
+                          // src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                          src={require("../assets/logo.png")}
+                          alt="Your Company"
+                        />
+                        <span className="font-bold text-white italic">Inventory Management</span>
+                      </div>
                     </div>
                     {/* <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
@@ -107,9 +108,7 @@ export default function Header() {
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             {userNavigation.map((item) => (
-                              <Menu.Item
-                                key={item.name}
-                              >
+                              <Menu.Item key={item.name}>
                                 {({ active }) => (
                                   <a
                                     href={item.href}
@@ -118,7 +117,9 @@ export default function Header() {
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
-                                   <span onClick={()=>authContext.signout()}>{item.name} </span>
+                                    <span onClick={() => authContext.signout()}>
+                                      {item.name}{" "}
+                                    </span>
                                   </a>
                                 )}
                               </Menu.Item>
@@ -149,21 +150,23 @@ export default function Header() {
               </div>
 
               <Disclosure.Panel className="md:hidden">
-              <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+                <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                   {navigation.map((item) => (
                     <Link to={item.href}>
-                    <Disclosure.Button
-                      key={item.name}
-                      as="a"
-                      // href={item.href}
-                      className={classNames(
-                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                        'block rounded-md px-3 py-2 text-base font-medium'
-                      )}
-                      aria-current={item.current ? 'page' : undefined}
-                    >
-                      {item.name}
-                    </Disclosure.Button>
+                      <Disclosure.Button
+                        key={item.name}
+                        as="a"
+                        // href={item.href}
+                        className={classNames(
+                          item.current
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "block rounded-md px-3 py-2 text-base font-medium"
+                        )}
+                        aria-current={item.current ? "page" : undefined}
+                      >
+                        {item.name}
+                      </Disclosure.Button>
                     </Link>
                   ))}
                 </div>
@@ -178,7 +181,9 @@ export default function Header() {
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
-                        {localStorageData.firstName + " " + localStorageData.lastName}
+                        {localStorageData.firstName +
+                          " " +
+                          localStorageData.lastName}
                       </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
                         {localStorageData.email}
@@ -200,7 +205,9 @@ export default function Header() {
                         href={item.href}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                       >
-                       <span onClick={()=>authContext.signout()}>{item.name} </span>
+                        <span onClick={() => authContext.signout()}>
+                          {item.name}{" "}
+                        </span>
                       </Disclosure.Button>
                     ))}
                   </div>

@@ -8,13 +8,13 @@ function Dashboard() {
         id: "basic-bar",
       },
       xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
+        categories: ["Mon", "Tues", "Wed", "Thurs", "Friday", "Sat", "Sun"],
       },
     },
     series: [
       {
         name: "series-1",
-        data: [30, 40, 45, 50, 49, 60, 70, 91],
+        data: [9, 10, 25, 40, 59, 60, 70],
       },
     ],
   });
@@ -44,8 +44,7 @@ function Dashboard() {
 
           <div>
             <strong class="block text-sm font-medium text-gray-500">
-              {" "}
-              Profit{" "}
+              Sales
             </strong>
 
             <p>
@@ -78,8 +77,7 @@ function Dashboard() {
 
           <div>
             <strong class="block text-sm font-medium text-gray-500">
-              {" "}
-              Profit{" "}
+              Purchase
             </strong>
 
             <p>
@@ -111,14 +109,13 @@ function Dashboard() {
 
           <div>
             <strong class="block text-sm font-medium text-gray-500">
-              {" "}
-              Profit{" "}
+              Total Products
             </strong>
 
             <p>
-              <span class="text-2xl font-medium text-gray-900"> $240.94 </span>
+              <span class="text-2xl font-medium text-gray-900"> 3 </span>
 
-              <span class="text-xs text-gray-500"> from $404.32 </span>
+              {/* <span class="text-xs text-gray-500"> from $404.32 </span> */}
             </p>
           </div>
         </article>
@@ -144,14 +141,13 @@ function Dashboard() {
 
           <div>
             <strong class="block text-sm font-medium text-gray-500">
-              {" "}
-              Profit{" "}
+             Total Stores
             </strong>
 
             <p>
-              <span class="text-2xl font-medium text-gray-900"> $240.94 </span>
+              <span class="text-2xl font-medium text-gray-900"> 3 </span>
 
-              <span class="text-xs text-gray-500"> from $404.32 </span>
+              {/* <span class="text-xs text-gray-500"> from 0 </span> */}
             </p>
           </div>
         </article>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import UploadImage from "./components/UploadImage";
+import UploadImage from "../components/UploadImage";
 
 function Register() {
   const [form, setForm] = useState({
@@ -30,7 +30,7 @@ function Register() {
       body: JSON.stringify(form),
     })
       .then((result) => {
-        alert("Register User");
+        alert("Successfully Registered, Now Login with your details");
         navigate('/login')
         
       })
@@ -68,7 +68,7 @@ function Register() {
           <div>
             <img
               className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              src={require("../assets/logo.png")}
               alt="Your Company"
             />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
