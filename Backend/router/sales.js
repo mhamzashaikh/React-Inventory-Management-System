@@ -8,6 +8,9 @@ app.post("/add", sales.addSales);
 // Get All Sales
 app.get("/get", sales.getSalesData);
 
+
+app.get("/get/totalsaleamount", sales.getTotalSalesAmount);
+
 module.exports = app;
 
 

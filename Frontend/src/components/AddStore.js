@@ -2,7 +2,7 @@ import { Fragment, useRef, useState, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import UploadImage from "./UploadImage";
-import AuthContext from "../AuthContext"
+import AuthContext from "../AuthContext";
 
 export default function AddStore() {
   const authContext = useContext(AuthContext);
@@ -14,8 +14,6 @@ export default function AddStore() {
     city: "",
     image: "",
   });
-
-  console.log("FOrm: ????", form);
 
   const handleInputChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -106,11 +104,11 @@ export default function AddStore() {
                         Store Information
                       </Dialog.Title>
                       <form action="#">
-                        <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                        <div className="grid gap-4 mb-4 sm:grid-cols-2">
                           <div>
                             <label
-                              for="name"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              htmlFor="name"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Name
                             </label>
@@ -120,14 +118,14 @@ export default function AddStore() {
                               id="name"
                               value={form.name}
                               onChange={handleInputChange}
-                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Enter Store Name"
                             />
                           </div>
                           <div>
                             <label
-                              for="city"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              htmlFor="city"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               City
                             </label>
@@ -137,20 +135,20 @@ export default function AddStore() {
                               id="city"
                               value={form.city}
                               onChange={handleInputChange}
-                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Enter City Name"
                             />
                           </div>
                           <div>
                             <label
-                              for="category"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              htmlFor="category"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Category
                             </label>
                             <select
                               id="category"
-                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               onChange={(e) =>
                                 setForm({
                                   ...form,
@@ -167,10 +165,10 @@ export default function AddStore() {
                               <option value="Phones">Phones</option>
                             </select>
                           </div>
-                          <div class="sm:col-span-2">
+                          <div className="sm:col-span-2">
                             <label
-                              for="address"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              htmlFor="address"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Address
                             </label>
@@ -178,24 +176,24 @@ export default function AddStore() {
                               id="address"
                               rows="5"
                               name="address"
-                              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Write a address..."
                               value={form.address}
                               onChange={handleInputChange}
                             ></textarea>
                           </div>
                         </div>
-                        <div class="flex items-center space-x-4">
+                        <div className="flex items-center space-x-4">
                           <div>
                             <UploadImage uploadImage={uploadImage} />
                             {/* <label
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                               for="small_size"
                             >
                               Upload Store Image
                             </label>
                             <input
-                              class="block w-full mb-5 text-xs text-gray-900 border  cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none "
+                              className="block w-full mb-5 text-xs text-gray-900 border  cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none "
                               id="small_size"
                               type="file"
                             /> */}
@@ -203,16 +201,16 @@ export default function AddStore() {
 
                           {/* <button
                             type="submit"
-                            class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                           >
                             Update product
                           </button> */}
                           {/* <button
                             type="button"
-                            class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                            className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                           >
                             <svg
-                              class="mr-1 -ml-1 w-5 h-5"
+                              className="mr-1 -ml-1 w-5 h-5"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                               xmlns="http://www.w3.org/2000/svg"

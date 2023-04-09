@@ -6,6 +6,7 @@ const updateProductStock = async (productID) => {
     const getProduct = await Product.findOne({ _id: productID });
     const { stockPurchase, stockSold } = getProduct;
     const updatedStock = stockPurchase - stockSold;
+    console.log("Update Stocked: ", updatedStock)
     const updateProduct = await Product.updateOne({ _id: productID}, {stock: updatedStock}, {new: true});
     console.log("Product Stock Updated successfully.", updateProduct)
   } catch (error) {

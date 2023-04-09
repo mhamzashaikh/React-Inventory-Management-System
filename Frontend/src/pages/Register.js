@@ -12,7 +12,6 @@ function Register() {
     imageUrl: "",
   });
 
-  console.log(form);
   const navigate = useNavigate();
 
   // Handling Input change for registration form.
@@ -158,12 +157,11 @@ function Register() {
               </div>
 
               <div className="text-sm">
-                <a
-                  href="#"
+                <span
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Forgot your password?
-                </a>
+                </span>
               </div>
             </div>
 
@@ -183,13 +181,12 @@ function Register() {
               </button>
               <p className="mt-2 text-center text-sm text-gray-600">
                 Or{" "}
-                <a
-                  href="#"
+                <span
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
-                  Already Have an Account, Please{" "}
+                  Already Have an Account, Please
                   <Link to="/login"> Signin now </Link>
-                </a>
+                </span>
               </p>
             </div>
           </form>

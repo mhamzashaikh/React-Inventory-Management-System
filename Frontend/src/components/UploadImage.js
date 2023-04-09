@@ -11,11 +11,11 @@ function UploadImage({ uploadImage }) {
   return (
     <div>
       <label
-        for="fileInput"
-        class="inline-block rounded-md shadow-sm py-2 px-4 bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        htmlFor="fileInput"
+        className="inline-block rounded-md shadow-sm py-2 px-4 bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
         <svg
-          class="w-6 h-6 inline-block mr-2"
+          className="w-6 h-6 inline-block mr-2"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +25,7 @@ function UploadImage({ uploadImage }) {
             fill="currentColor"
           />
         </svg>
-        <span class="inline-block">
+        <span className="inline-block">
           {" "}
           {fileName?.name ? fileName.name : "Choose file"}
         </span>

@@ -2,7 +2,12 @@ import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
-export default function AddSale({ addSaleModalSetting, products, stores, handlePageUpdate}) {
+export default function AddSale({
+  addSaleModalSetting,
+  products,
+  stores,
+  handlePageUpdate,
+}) {
   const [sale, setSale] = useState({
     productID: "",
     storeID: "",
@@ -10,13 +15,11 @@ export default function AddSale({ addSaleModalSetting, products, stores, handleP
     saleDate: "",
     totalSaleAmount: "",
   });
-  console.log("SALES DATA: ", sale);
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
 
   // Handling Input Change for input fields
   const handleInputChange = (key, value) => {
-    console.log(key);
     setSale({ ...sale, [key]: value });
   };
 
@@ -89,7 +92,7 @@ export default function AddSale({ addSaleModalSetting, products, stores, handleP
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
                           <div>
                             <label
-                              for="productID"
+                              htmlFor="productID"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Product Name
@@ -105,7 +108,7 @@ export default function AddSale({ addSaleModalSetting, products, stores, handleP
                               <option selected="">Select Products</option>
                               {products.map((element, index) => {
                                 return (
-                                  <option value={element._id}>
+                                  <option key={element._id} value={element._id}>
                                     {element.name}
                                   </option>
                                 );
@@ -114,7 +117,7 @@ export default function AddSale({ addSaleModalSetting, products, stores, handleP
                           </div>
                           <div>
                             <label
-                              for="stockSold"
+                              htmlFor="stockSold"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Stock Sold
@@ -134,7 +137,7 @@ export default function AddSale({ addSaleModalSetting, products, stores, handleP
 
                           <div>
                             <label
-                              for="storeID"
+                              htmlFor="storeID"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Store Name
@@ -150,7 +153,7 @@ export default function AddSale({ addSaleModalSetting, products, stores, handleP
                               <option selected="">Select Store</option>
                               {stores.map((element, index) => {
                                 return (
-                                  <option value={element._id}>
+                                  <option key={element._id} value={element._id}>
                                     {element.name}
                                   </option>
                                 );
@@ -159,7 +162,7 @@ export default function AddSale({ addSaleModalSetting, products, stores, handleP
                           </div>
                           <div>
                             <label
-                              for="totalSaleAmount"
+                              htmlFor="totalSaleAmount"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Total Sale Amount
@@ -184,7 +187,7 @@ export default function AddSale({ addSaleModalSetting, products, stores, handleP
                             /> */}
                             <label
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                              for="salesDate"
+                              htmlFor="salesDate"
                             >
                               Sales Date
                             </label>
@@ -209,10 +212,10 @@ export default function AddSale({ addSaleModalSetting, products, stores, handleP
                           </button> */}
                           {/* <button
                             type="button"
-                            class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                            className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                           >
                             <svg
-                              class="mr-1 -ml-1 w-5 h-5"
+                              className="mr-1 -ml-1 w-5 h-5"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                               xmlns="http://www.w3.org/2000/svg"

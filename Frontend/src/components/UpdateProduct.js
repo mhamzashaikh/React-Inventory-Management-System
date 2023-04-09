@@ -2,15 +2,17 @@ import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
-export default function UpdateProduct({ updateProductData, updateModalSetting }) {
-  const { _id, name, manufacturer, description } =updateProductData;
+export default function UpdateProduct({
+  updateProductData,
+  updateModalSetting,
+}) {
+  const { _id, name, manufacturer, description } = updateProductData;
   const [product, setProduct] = useState({
     productID: _id,
     name: name,
     manufacturer: manufacturer,
     description: description,
   });
-  console.log("Product: >>> ", product);
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
 
@@ -83,11 +85,11 @@ export default function UpdateProduct({ updateProductData, updateModalSetting })
                         Update Product
                       </Dialog.Title>
                       <form action="#">
-                        <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                        <div className="grid gap-4 mb-4 sm:grid-cols-2">
                           <div>
                             <label
-                              for="name"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              htmlFor="name"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Name
                             </label>
@@ -99,14 +101,14 @@ export default function UpdateProduct({ updateProductData, updateModalSetting })
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
                               }
-                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Ex. Apple iMac 27&ldquo;"
                             />
                           </div>
                           <div>
                             <label
-                              for="manufacturer"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              htmlFor="manufacturer"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Manufacturer
                             </label>
@@ -118,14 +120,14 @@ export default function UpdateProduct({ updateProductData, updateModalSetting })
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
                               }
-                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Ex. Apple"
                             />
                           </div>
-                          <div class="sm:col-span-2">
+                          <div className="sm:col-span-2">
                             <label
-                              for="description"
-                              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                              htmlFor="description"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
                               Description
                             </label>
@@ -133,7 +135,7 @@ export default function UpdateProduct({ updateProductData, updateModalSetting })
                               id="description"
                               rows="5"
                               name="description"
-                              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Write a description..."
                               value={product.description}
                               onChange={(e) =>
@@ -148,19 +150,19 @@ export default function UpdateProduct({ updateProductData, updateModalSetting })
                             </textarea>
                           </div>
                         </div>
-                        <div class="flex items-center space-x-4">
+                        <div className="flex items-center space-x-4">
                           {/* <button
                             type="submit"
-                            class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                           >
                             Update product
                           </button> */}
                           {/* <button
                             type="button"
-                            class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                            className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                           >
                             <svg
-                              class="mr-1 -ml-1 w-5 h-5"
+                              className="mr-1 -ml-1 w-5 h-5"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                               xmlns="http://www.w3.org/2000/svg"

@@ -21,7 +21,7 @@ const purchaseStock = async (productID) => {
         { $set: { stockPurchase: total_quantity } }
       );
     });
-    updateProductStock(productID);
+     await updateProductStock(productID);
     console.log(">> Purchase:  Product stock updated successfully.");
   } catch (error) {
     console.error("Error updating product stock:", error);

@@ -12,7 +12,6 @@ function Login() {
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
 
-  console.log(form);
 
   const handleInputChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -56,13 +55,14 @@ function Login() {
         });
     }
     authCheck();
-    // console.log("Auth: ", authContext);
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
+  
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 h-screen  items-center place-items-center">
@@ -81,12 +81,11 @@ function Login() {
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or
-              <a
-                href="#"
+              <span
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 start your 14-day free trial
-              </a>
+              </span>
             </p>
           </div>
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -143,12 +142,11 @@ function Login() {
               </div>
 
               <div className="text-sm">
-                <a
-                  href="#"
+                <span
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Forgot your password?
-                </a>
+                </span>
               </div>
             </div>
 
@@ -168,13 +166,12 @@ function Login() {
               </button>
               <p className="mt-2 text-center text-sm text-gray-600">
                 Or{" "}
-                <a
-                  href="#"
+                <span
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Don't Have an Account, Please{" "}
                   <Link to="/register"> Register now </Link>
-                </a>
+                </span>
               </p>
             </div>
           </form>

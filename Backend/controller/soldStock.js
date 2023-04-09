@@ -12,7 +12,7 @@ const soldStock = async (productID) => {
       const { _id, total_quantity } = purchase;
       await Product.updateOne({ _id }, { $set: { stockSold: total_quantity } });
     });
-    updateProductStock(productID)
+    await updateProductStock(productID)
     console.log('Product stock updated successfully.');
   } catch (error) {
     console.error('Error updating product stock:', error);

@@ -1,15 +1,9 @@
 import { Fragment, useContext } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import AuthContext from "../AuthContext"
+import AuthContext from "../AuthContext";
 import { Link } from "react-router-dom";
 
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
 const navigation = [
   { name: "Dashboard", href: "/", current: true },
   { name: "Inventory", href: "/inventory", current: false },
@@ -18,7 +12,7 @@ const navigation = [
   { name: "Manage Store", href: "/manage-store", current: false },
 ];
 
-const userNavigation = [{ name: "Sign out", href: "#" }];
+const userNavigation = [{ name: "Sign out", href: "./login" }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -48,11 +42,12 @@ export default function Header() {
                       <div className="flex justify-center items-center gap-2">
                         <img
                           className="h-8 w-8"
-                          // src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                           src={require("../assets/logo.png")}
-                          alt="Your Company"
+                          alt="Inventory Management System"
                         />
-                        <span className="font-bold text-white italic">Inventory Management</span>
+                        <span className="font-bold text-white italic">
+                          Inventory Management
+                        </span>
                       </div>
                     </div>
                     {/* <div className="hidden md:block">
@@ -93,7 +88,7 @@ export default function Header() {
                             <img
                               className="h-8 w-8 rounded-full"
                               src={localStorageData.imageUrl}
-                              alt=""
+                              alt="profile"
                             />
                           </Menu.Button>
                         </div>
@@ -110,8 +105,8 @@ export default function Header() {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <Link
+                                    to={item.href}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
@@ -120,7 +115,7 @@ export default function Header() {
                                     <span onClick={() => authContext.signout()}>
                                       {item.name}{" "}
                                     </span>
-                                  </a>
+                                  </Link>
                                 )}
                               </Menu.Item>
                             ))}
@@ -152,7 +147,7 @@ export default function Header() {
               <Disclosure.Panel className="md:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                   {navigation.map((item) => (
-                    <Link to={item.href}>
+                    <Link to={item.href} key={item.name}>
                       <Disclosure.Button
                         key={item.name}
                         as="a"
@@ -176,7 +171,7 @@ export default function Header() {
                       <img
                         className="h-10 w-10 rounded-full"
                         src={localStorageData.imageUrl}
-                        alt=""
+                        alt="profile"
                       />
                     </div>
                     <div className="ml-3">

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Filter from "../components/Filter";
 import AddProduct from "../components/AddProduct";
 import UpdateProduct from "../components/UpdateProduct";
 
 function Inventory() {
-  const [showFilter, setFilter] = useState(false);
+  // const [showFilter, setFilter] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [updateProduct, setUpdateProduct] = useState([]);
@@ -38,6 +37,15 @@ function Inventory() {
       .catch((err) => console.log(err));
   };
 
+  // Fetching all stores data
+  const fetchSalesData = () => {
+    fetch("http://localhost:4000/api/store/get")
+      .then((response) => response.json())
+      .then((data) => {
+        setAllStores(data);
+      });
+  };
+
   // Modal for Product ADD
   const addProductModalSetting = () => {
     setShowProductModal(!showProductModal);
@@ -50,9 +58,6 @@ function Inventory() {
     setShowUpdateModal(!showUpdateModal);
   };
 
-  const filterShow = () => {
-    setFilter(!showFilter);
-  };
 
   // Delete item
   const deleteItem = (id) => {
@@ -74,15 +79,6 @@ function Inventory() {
   const handleSearchTerm = (e) => {
     setSearchTerm(e.target.value);
     fetchSearchData();
-  };
-
-  // Fetching all stores data
-  const fetchSalesData = () => {
-    fetch("http://localhost:4000/api/store/get")
-      .then((response) => response.json())
-      .then((data) => {
-        setAllStores(data);
-      });
   };
 
   return (
@@ -186,12 +182,13 @@ function Inventory() {
         )}
 
         {/* Table  */}
-        <div class="overflow-x-auto rounded-lg border bg-white border-gray-200 ">
+        <div className="overflow-x-auto rounded-lg border bg-white border-gray-200 ">
           <div className="flex justify-between pt-5 pb-3 px-3">
             <div className="flex gap-4 justify-center items-center ">
               <span className="font-bold">Products</span>
               <div className="flex justify-center items-center px-2 border-2 rounded-md ">
                 <img
+                  alt="search-icon"
                   className="w-5 h-5"
                   src={require("../assets/search-icon.png")}
                 />
@@ -206,69 +203,58 @@ function Inventory() {
             </div>
             <div className="flex gap-4">
               <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 text-xs  rounded"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 text-xs  rounded"
                 onClick={addProductModalSetting}
               >
                 {/* <Link to="/inventory/add-product">Add Product</Link> */}
                 Add Product
               </button>
-              <button
-                class="flex gap-2 bg-white-200 hover:bg-gray-100 border-2 text-gray font-bold p-2 text-xs  rounded"
-                onClick={filterShow}
-              >
-                <img
-                  className="py-1 pl-2"
-                  src={require("../assets/filter-icon.png")}
-                />
-                Filter
-              </button>
-              {showFilter && <Filter />}
             </div>
           </div>
-          <table class="min-w-full divide-y-2 divide-gray-200 text-sm">
+          <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
             <thead>
               <tr>
-                <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                   Products
                 </th>
-                <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                   Manufacturer
                 </th>
-                <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                   Stock
                 </th>
-                <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                   Description
                 </th>
-                <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                   Availibility
                 </th>
-                <th class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                   More
                 </th>
               </tr>
             </thead>
 
-            <tbody class="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200">
               {products.map((element, index) => {
                 return (
-                  <tr>
-                    <td class="whitespace-nowrap px-4 py-2  text-gray-900">
+                  <tr key={element._id}>
+                    <td className="whitespace-nowrap px-4 py-2  text-gray-900">
                       {element.name}
                     </td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                       {element.manufacturer}
                     </td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                       {element.stock}
                     </td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                       {element.description}
                     </td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                       {element.stock > 0 ? "In Stock" : "Not in Stock"}
                     </td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                       <span
                         className="text-green-700 cursor-pointer"
                         onClick={() => updateProductModalSetting(element)}
