@@ -2,7 +2,9 @@ const Product = require("../models/Product");
 
 // Add Post
 const addProduct = (req, res) => {
+  console.log("req: ", req.body.userId);
   const addProduct = new Product({
+    userID: req.body.userId,
     name: req.body.name,
     manufacturer: req.body.manufacturer,
     stockPurchase: 0,
@@ -21,9 +23,13 @@ const addProduct = (req, res) => {
     });
 };
 
+
+
+
 // Get All Products
 const getAllProducts = async (req, res) => {
-  const findAllProducts = await Product.find().sort({ _id: -1 }); // -1 for descending;
+  console.log("000= ", req.params.userId);
+  const findAllProducts = await Product.find({"userID": req.params.userId}).sort({ _id: -1 }); // -1 for descending;
   res.json(findAllProducts);
 };
 
