@@ -7,8 +7,10 @@ export default function AddSale({
   products,
   stores,
   handlePageUpdate,
+  authContext
 }) {
   const [sale, setSale] = useState({
+    userID: authContext.user,
     productID: "",
     storeID: "",
     stockSold: "",
@@ -17,6 +19,7 @@ export default function AddSale({
   });
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
+
 
   // Handling Input Change for input fields
   const handleInputChange = (key, value) => {

@@ -1,31 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import AddPurchaseDetails from "../components/AddPurchaseDetails";
+import AuthContext from "../AuthContext";
 
 function PurchaseDetails() {
-  const [showSaleModal, setShowSaleModal] = useState(false);
-  const [sales, setAllSalesData] = useState([]);
+  const [showPurchaseModal, setPurchaseModal] = useState(false);
+  const [purchase, setAllPurchaseData] = useState([]);
   const [products, setAllProducts] = useState([]);
   const [updatePage, setUpdatePage] = useState(true);
 
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
-    fetchSalesData();
+    fetchPurchaseData();
     fetchProductsData();
   }, [updatePage]);
 
-  // Fetching Data of All Sales
-  const fetchSalesData = () => {
-    fetch("http://localhost:4000/api/purchase/get")
+  // Fetching Data of All Purchase items
+  const fetchPurchaseData = () => {
+    fetch(`http://localhost:4000/api/purchase/get/${authContext.user}`)
       .then((response) => response.json())
       .then((data) => {
-        setAllSalesData(data);
+        setAllPurchaseData(data);
       })
       .catch((err) => console.log(err));
   };
 
   // Fetching Data of All Products
   const fetchProductsData = () => {
-    fetch("http://localhost:4000/api/product/get")
+    fetch(`http://localhost:4000/api/product/get/${authContext.user}`)
       .then((response) => response.json())
       .then((data) => {
         setAllProducts(data);
@@ -35,7 +37,7 @@ function PurchaseDetails() {
 
   // Modal for Sale Add
   const addSaleModalSetting = () => {
-    setShowSaleModal(!showSaleModal);
+    setPurchaseModal(!showPurchaseModal);
   };
 
   
@@ -47,11 +49,12 @@ function PurchaseDetails() {
   return (
     <div className="col-span-12 lg:col-span-10  flex justify-center">
       <div className=" flex flex-col gap-5 w-11/12">
-        {showSaleModal && (
+        {showPurchaseModal && (
           <AddPurchaseDetails
             addSaleModalSetting={addSaleModalSetting}
             products={products}
             handlePageUpdate={handlePageUpdate}
+            authContext = {authContext}
           />
         )}
         {/* Table  */}
@@ -89,7 +92,7 @@ function PurchaseDetails() {
             </thead>
 
             <tbody className="divide-y divide-gray-200">
-              {sales.map((element, index) => {
+              {purchase.map((element, index) => {
                 return (
                   <tr key={element._id}>
                     <td className="whitespace-nowrap px-4 py-2  text-gray-900">

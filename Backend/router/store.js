@@ -6,6 +6,6 @@ const store = require("../controller/store");
 app.post("/add", store.addStore);
 
 // Get All Store
-app.get("/get", store.getAllStores)
+app.get("/get/:userID", store.getAllStores)
 
 module.exports = app;

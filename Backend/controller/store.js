@@ -22,7 +22,7 @@ const addStore = async (req, res) => {
 
 // Get All Stores
 const getAllStores = async (req, res) => {
-  const findAllStores = await Store.find().sort({ _id: -1 }); // -1 for descending;
+  const findAllStores = await Store.find({"userID": req.params.userID}).sort({ _id: -1 }); // -1 for descending;
   res.json(findAllStores);
 };
 

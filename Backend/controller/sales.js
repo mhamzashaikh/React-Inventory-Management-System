@@ -4,6 +4,7 @@ const soldStock = require("../controller/soldStock");
 // Add Sales
 const addSales = (req, res) => {
   const addSale = new Sales({
+    userID: req.body.userID,
     ProductID: req.body.productID,
     StoreID: req.body.storeID,
     StockSold: req.body.stockSold,
@@ -24,7 +25,7 @@ const addSales = (req, res) => {
 
 // Get All Sales Data
 const getSalesData = async (req, res) => {
-  const findAllSalesData = await Sales.find()
+  const findAllSalesData = await Sales.find({"userID": req.params.userID})
     .sort({ _id: -1 })
     .populate("ProductID")
     .populate("StoreID"); // -1 for descending order
@@ -34,7 +35,7 @@ const getSalesData = async (req, res) => {
 // Get total sales amount
 const getTotalSalesAmount = async(req,res) => {
   let totalSaleAmount = 0;
-  const salesData = await Sales.find();
+  const salesData = await Sales.find({"userID": req.params.userID});
   salesData.forEach((sale)=>{
     totalSaleAmount += sale.TotalSaleAmount;
   })

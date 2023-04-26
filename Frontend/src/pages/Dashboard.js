@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import AuthContext from "../AuthContext";
 
 function Dashboard() {
   const [saleAmount, setSaleAmount] = useState("");
@@ -23,6 +24,8 @@ function Dashboard() {
     ],
   });
 
+  const authContext = useContext(AuthContext);
+
   useEffect(() => {
     fetchTotalSaleAmount();
     fetchTotalPurchaseAmount();
@@ -31,28 +34,28 @@ function Dashboard() {
   }, []);
   // Fetching total sales amount
   const fetchTotalSaleAmount = () => {
-    fetch("http://localhost:4000/api/sales/get/totalsaleamount")
+    fetch(`http://localhost:4000/api/sales/get/${authContext.user}/totalsaleamount`)
       .then((response) => response.json())
       .then((datas) => setSaleAmount(datas.totalSaleAmount));
   };
 
   // Fetching total purchase amount
   const fetchTotalPurchaseAmount = () => {
-    fetch("http://localhost:4000/api/purchase/get/totalpurchaseamount")
+    fetch(`http://localhost:4000/api/purchase/get/${authContext.user}/totalpurchaseamount`)
       .then((response) => response.json())
       .then((datas) => setPurchaseAmount(datas.totalPurchaseAmount));
   };
 
   // Fetching all stores data
   const fetchStoresData = () => {
-    fetch("http://localhost:4000/api/store/get")
+    fetch(`http://localhost:4000/api/store/get/${authContext.user}`)
       .then((response) => response.json())
       .then((datas) => setStores(datas));
   };
 
   // Fetching Data of All Products
   const fetchProductsData = () => {
-    fetch("http://localhost:4000/api/product/get")
+    fetch(`http://localhost:4000/api/product/get/${authContext.user}`)
       .then((response) => response.json())
       .then((datas) => setProducts(datas))
       .catch((err) => console.log(err));

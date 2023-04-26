@@ -6,8 +6,10 @@ export default function AddPurchaseDetails({
   addSaleModalSetting,
   products,
   handlePageUpdate,
+  authContext
 }) {
   const [purchase, setPurchase] = useState({
+    userID: authContext.user,
     productID: "",
     quantityPurchased: "",
     purchaseDate: "",
@@ -15,6 +17,8 @@ export default function AddPurchaseDetails({
   });
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
+
+  console.log("PPu: ", purchase);
 
   // Handling Input Change for input fields
   const handleInputChange = (key, value) => {

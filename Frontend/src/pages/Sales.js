@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import AddSale from "../components/AddSale";
+import AuthContext from "../AuthContext";
 
 function Sales() {
   const [showSaleModal, setShowSaleModal] = useState(false);
@@ -7,7 +8,8 @@ function Sales() {
   const [products, setAllProducts] = useState([]);
   const [stores, setAllStores] = useState([]);
   const [updatePage, setUpdatePage] = useState(true);
-  
+
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     fetchSalesData();
@@ -17,7 +19,7 @@ function Sales() {
 
   // Fetching Data of All Sales
   const fetchSalesData = () => {
-    fetch("http://localhost:4000/api/sales/get")
+    fetch(`http://localhost:4000/api/sales/get/${authContext.user}`)
       .then((response) => response.json())
       .then((data) => {
         setAllSalesData(data);
@@ -27,7 +29,7 @@ function Sales() {
 
   // Fetching Data of All Products
   const fetchProductsData = () => {
-    fetch("http://localhost:4000/api/product/get")
+    fetch(`http://localhost:4000/api/product/get/${authContext.user}`)
       .then((response) => response.json())
       .then((data) => {
         setAllProducts(data);
@@ -63,6 +65,7 @@ function Sales() {
             products={products}
             stores={stores}
             handlePageUpdate={handlePageUpdate}
+            authContext={authContext}
           />
         )}
         {/* Table  */}

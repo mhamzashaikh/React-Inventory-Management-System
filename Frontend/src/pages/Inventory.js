@@ -13,6 +13,9 @@ function Inventory() {
   const [stores, setAllStores] = useState([]);
 
   const authContext = useContext(AuthContext);
+  console.log('====================================');
+  console.log(authContext);
+  console.log('====================================');
 
   useEffect(() => {
     fetchProductsData();
@@ -21,7 +24,7 @@ function Inventory() {
 
   // Fetching Data of All Products
   const fetchProductsData = () => {
-    fetch("http://localhost:4000/api/product/get")
+    fetch(`http://localhost:4000/api/product/get/${authContext.user}`)
       .then((response) => response.json())
       .then((data) => {
         setAllProducts(data);
