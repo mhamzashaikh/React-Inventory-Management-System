@@ -1,4 +1,6 @@
 const Product = require("../models/Product");
+const Purchase = require("../models/purchase");
+const Sales = require("../models/sales");
 
 // Add Post
 const addProduct = (req, res) => {
@@ -23,13 +25,12 @@ const addProduct = (req, res) => {
     });
 };
 
-
-
-
 // Get All Products
 const getAllProducts = async (req, res) => {
   console.log("000= ", req.params.userId);
-  const findAllProducts = await Product.find({"userID": req.params.userId}).sort({ _id: -1 }); // -1 for descending;
+  const findAllProducts = await Product.find({
+    userID: req.params.userId,
+  }).sort({ _id: -1 }); // -1 for descending;
   res.json(findAllProducts);
 };
 
@@ -39,7 +40,16 @@ const deleteSelectedProduct = async (req, res) => {
     { _id: req.params.id },
     { onDelete: "delete" }
   );
-  res.json(deleteProduct);
+  const deletePurchaseProduct = await Purchase.deleteOne(
+    { ProductID: req.params.id },
+    { onDelete: "delete" }
+  );
+
+  const deleteSaleProduct = await Sales.deleteOne(
+    { ProductID: req.params.id },
+    { onDelete: "delete" }
+  );
+  res.json({ deleteProduct, deletePurchaseProduct, deleteSaleProduct });
 };
 
 // Update Selected Product
@@ -62,11 +72,12 @@ const updateSelectedProduct = async (req, res) => {
   }
 };
 
-
 // Search Products
 const searchProduct = async (req, res) => {
   const searchTerm = req.query.searchTerm;
-  const products = await Product.find({ name: { $regex: searchTerm, $options: 'i' } });
+  const products = await Product.find({
+    name: { $regex: searchTerm, $options: "i" },
+  });
   res.json(products);
 };
 
@@ -75,5 +86,5 @@ module.exports = {
   getAllProducts,
   deleteSelectedProduct,
   updateSelectedProduct,
-  searchProduct
+  searchProduct,
 };
