@@ -15,7 +15,7 @@ const addSales = (req, res) => {
   addSale
     .save()
     .then((result) => {
-      soldStock(req.body.productID);
+      soldStock(req.body.productID, req.body.stockSold);
       res.status(200).send(result);
     })
     .catch((err) => {

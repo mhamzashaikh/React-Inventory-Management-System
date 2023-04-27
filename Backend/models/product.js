@@ -15,16 +15,16 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    stockPurchase: {
-      type: Number,
-      required: true,
-    },
-    stockSold: {
-      type: Number,
-      required: true,
-    },
+    // stockPurchase: {
+    //   type: Number,
+    //   required: true,
+    // },
+    // stockSold: {
+    //   type: Number,
+    //   required: true,
+    // },
     stock: {
-      type: String,
+      type: Number,
       required: true,
     },
     description: String,

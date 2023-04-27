@@ -9,8 +9,8 @@ const addProduct = (req, res) => {
     userID: req.body.userId,
     name: req.body.name,
     manufacturer: req.body.manufacturer,
-    stockPurchase: 0,
-    stockSold: 0,
+    // stockPurchase: 0,
+    // stockSold: 0,
     stock: 0,
     description: req.body.description,
   });

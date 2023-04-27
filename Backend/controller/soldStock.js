@@ -1,21 +1,27 @@
-const Sales = require('../models/sales');
-const Product = require('../models/Product');
-const updateProductStock = require("./updateProductStock");
+const Sales = require("../models/sales");
+const Product = require("../models/Product");
 
-const soldStock = async (productID) => {
+
+const soldStock = async (productID, stockSoldData) => {
+
+  // Updating sold stock
   try {
-    const result = await Sales.aggregate([
-      { $group: { _id: '$ProductID', total_quantity: { $sum: '$StockSold' } } },
-      { $project: { _id: 1, total_quantity: 1 } }
-    ]);
-    result.forEach(async (purchase) => {
-      const { _id, total_quantity } = purchase;
-      await Product.updateOne({ _id }, { $set: { stockSold: total_quantity } });
-    });
-    await updateProductStock(productID)
-    console.log('Product stock updated successfully.');
+    
+    const myProductData = await Product.findOne({ _id: productID });
+    let myUpdatedStock = myProductData.stock - stockSoldData;
+    console.log("MY SOLD STOCK: ", myUpdatedStock);
+
+    const SoldStock = await Product.findByIdAndUpdate(
+      { _id: productID },
+      {
+        stock: myUpdatedStock,
+      },
+      { new: true }
+    );
+    console.log(SoldStock);
+
   } catch (error) {
-    console.error('Error updating product stock:', error);
+    console.error("Error updating sold stock ", error);
   }
 };
 

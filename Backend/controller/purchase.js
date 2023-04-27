@@ -14,7 +14,7 @@ const addPurchase = (req, res) => {
   addPurchaseDetails
     .save()
     .then((result) => {
-      purchaseStock(req.body.productID);
+      purchaseStock(req.body.productID, req.body.quantityPurchased);
       res.status(200).send(result);
     })
     .catch((err) => {
