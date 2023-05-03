@@ -43,25 +43,28 @@ const getTotalSalesAmount = async(req,res) => {
 
 }
 
+const getMonthlySales = async (req, res) => {
+  try {
+    const sales = await Sales.find();
 
+    // Initialize array with 12 zeros
+    const salesAmount = [];
+    salesAmount.length = 12;
+    salesAmount.fill(0)
 
+    sales.forEach((sale) => {
+      const monthIndex = parseInt(sale.SaleDate.split("-")[1]) - 1;
 
-// Get last 7 days sales data
-const getWeekSalesDetails = async () => {
-  const today = new Date();
-  const lastWeek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days ago
+      salesAmount[monthIndex] += sale.TotalSaleAmount;
+    });
 
-  const salesDetails = await Sales.find(
-    { SaleDate: { $gte: lastWeek } },
-    (err, sales) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(sales);
-      }
-    }
-  );
-  res.json(salesDetails);
+    res.status(200).json({ salesAmount });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
 };
 
-module.exports = { addSales, getSalesData, getWeekSalesDetails, getTotalSalesAmount};
+
+
+module.exports = { addSales, getMonthlySales, getSalesData,  getTotalSalesAmount};
