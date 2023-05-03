@@ -34,17 +34,14 @@ const getAllProducts = async (req, res) => {
 // Delete Selected Product
 const deleteSelectedProduct = async (req, res) => {
   const deleteProduct = await Product.deleteOne(
-    { _id: req.params.id },
-    { onDelete: "delete" }
+    { _id: req.params.id }
   );
   const deletePurchaseProduct = await Purchase.deleteOne(
-    { ProductID: req.params.id },
-    { onDelete: "delete" }
+    { ProductID: req.params.id }
   );
 
   const deleteSaleProduct = await Sales.deleteOne(
-    { ProductID: req.params.id },
-    { onDelete: "delete" }
+    { ProductID: req.params.id }
   );
   res.json({ deleteProduct, deletePurchaseProduct, deleteSaleProduct });
 };
