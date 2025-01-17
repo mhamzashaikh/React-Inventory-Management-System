@@ -275,7 +275,7 @@ function Dashboard() {
             </p>
           </div>
         </article>
-        <div className="flex justify-around bg-white rounded-lg py-8 col-span-full justify-center">
+        <div className="flex justify-around bg-white rounded-lg py-8 col-span-full">
           <div>
             <Chart
               options={chart.options}
