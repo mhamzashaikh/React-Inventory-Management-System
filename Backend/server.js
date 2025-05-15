@@ -1,91 +1,94 @@
 const express = require("express");
-const { main } = require("./models/index");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+
+// Load environment variables from .env
+dotenv.config();
+
+// Import routes
 const productRoute = require("./router/product");
 const storeRoute = require("./router/store");
 const purchaseRoute = require("./router/purchase");
 const salesRoute = require("./router/sales");
-const cors = require("cors");
+
+// Import models
 const User = require("./models/users");
 const Product = require("./models/Product");
 
 
+// Initialize Express App
 const app = express();
-const PORT = 4000;
-main();
+const PORT = process.env.PORT || 4000;
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Store API
+// Database Connection
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("MongoDB Connected Successfully");
+  } catch (err) {
+    console.error("MongoDB connection failed:", err.message);
+    process.exit(1);
+  }
+};
+
+connectDB();
+
+// API Routes
 app.use("/api/store", storeRoute);
-
-// Products API
 app.use("/api/product", productRoute);
-
-// Purchase API
 app.use("/api/purchase", purchaseRoute);
-
-// Sales API
 app.use("/api/sales", salesRoute);
 
-// ------------- Signin --------------
-let userAuthCheck;
+// ---------- Auth Routes ---------- //
+
+// Login
 app.post("/api/login", async (req, res) => {
-  console.log(req.body);
-  // res.send("hi");
   try {
-    const user = await User.findOne({
-      email: req.body.email,
-      password: req.body.password,
-    });
-    console.log("USER: ", user);
+    const { email, password } = req.body;
+    const user = await User.findOne({ email, password });
+
     if (user) {
-      res.send(user);
-      userAuthCheck = user;
+      res.status(200).json(user);
     } else {
-      res.status(401).send("Invalid Credentials");
-      userAuthCheck = null;
+      res.status(401).json({ error: "Invalid Credentials" });
     }
   } catch (error) {
-    console.log(error);
-    res.send(error);
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// Getting User Details of login user
-app.get("/api/login", (req, res) => {
-  res.send(userAuthCheck);
+// Register
+app.post("/api/register", async (req, res) => {
+  try {
+    const newUser = new User(req.body);
+    const result = await newUser.save();
+    res.status(201).json(result);
+  } catch (err) {
+    console.error("Signup error:", err);
+    res.status(400).json({ error: "User registration failed" });
+  }
 });
-// ------------------------------------
 
-// Registration API
-app.post("/api/register", (req, res) => {
-  let registerUser = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password,
-    phoneNumber: req.body.phoneNumber,
-    imageUrl: req.body.imageUrl,
-  });
-
-  registerUser
-    .save()
-    .then((result) => {
-      res.status(200).send(result);
-      alert("Signup Successfull");
-    })
-    .catch((err) => console.log("Signup: ", err));
-  console.log("request: ", req.body);
+// Get Test Product
+app.get("/testget", async (req, res) => {
+  try {
+    const result = await Product.findOne({ _id: "6429979b2e5434138eda1564" });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch product" });
+  }
 });
 
 
-app.get("/testget", async (req,res)=>{
-  const result = await Product.findOne({ _id: '6429979b2e5434138eda1564'})
-  res.json(result)
-
-})
-
-// Here we are listening to the server
 app.listen(PORT, () => {
-  console.log("I am live again");
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
